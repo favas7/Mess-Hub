@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "506294411130",
+    "project_id": "messhub-52df7",
+    "storage_bucket": "messhub-52df7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506294411130:android:c267ba8e0a41e8d0f9c0c3",
+        "android_client_info": {
+          "package_name": "com.example.messhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBONkYpeCZTvhYuJ0KuzhdETgXN3CeQDiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

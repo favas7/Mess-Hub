@@ -1,0 +1,72 @@
+// ignore_for_file: file_names
+
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:messhub/color/color.dart';
+import 'package:messhub/presentation/User/home.dart';
+import 'package:messhub/presentation/User/profile.dart';
+import 'package:messhub/presentation/User/userData.dart';
+
+class BottomNavUser extends StatefulWidget {
+  const BottomNavUser({Key? key}) : super(key: key);
+
+  @override
+  State<BottomNavUser> createState() => _BottomNavUserState();
+}
+
+class _BottomNavUserState extends State<BottomNavUser> {
+  late PageController _userPageController;
+  int _selectedIndexUser = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _userPageController = PageController(initialPage: _selectedIndexUser);
+  }
+
+  @override
+  void dispose() {
+    _userPageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: _userPageController,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndexUser = index;
+          });
+        },
+        children: const [
+          home(),
+          UserData(),
+          Profile(),
+        ],
+      ),
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.reactCircle,
+        backgroundColor: mainColor,
+        items: const [
+          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.calendar_month, title: 'Mess Details'), 
+          TabItem(icon: Icons.person, title: 'Profile'),
+        ],
+        initialActiveIndex: _selectedIndexUser,
+        onTap: _userOnItemTapped,
+        activeColor: white,
+        curveSize: 100,
+      ),
+    );
+  }
+
+  void _userOnItemTapped(int index) {
+    _userPageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+}

@@ -16,6 +16,7 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
 void showSuccessMessage(BuildContext context, String message, {int duration = 2}) {
   Fluttertoast.showToast(
     msg: message,
@@ -27,19 +28,19 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
     timeInSecForIosWeb: duration, // Duration in seconds
   );
 }
-  bool _obscureText = true;
-class _LoginState extends State<Login> {
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final GlobalKey<FormState> _formKey3 = GlobalKey<FormState>();
-  final GlobalKey<FormState> _passkey = GlobalKey<FormState>();
-  final GlobalKey<FormState> key1 =  GlobalKey<FormState>();
 
-  void _clearForm() 
-  {
-    _email.clear();
-    _password.clear();
+bool _obscureText = true;
+
+class _LoginState extends State<Login> {
+  final TextEditingController _emailLogIn = TextEditingController();
+  final TextEditingController _passwordLogIn = TextEditingController();
+  final GlobalKey<FormState> _formKeyLogIn = GlobalKey<FormState>();
+
+  void _clearForm() {
+    _emailLogIn.clear();
+    _passwordLogIn.clear();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +62,7 @@ class _LoginState extends State<Login> {
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const WelcomeScreen()),);
                   },
-                  icon: const Icon(Icons.arrow_back_ios,color: Color.fromRGBO(17, 23, 25, 1),),
+                  icon: const Icon(Icons.arrow_back_ios, color: Color.fromRGBO(17, 23, 25, 1)),
                 ),
               ),
               const SizedBox(
@@ -82,18 +83,17 @@ class _LoginState extends State<Login> {
                 height: 50,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15,),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: Form(
-                  key: key1,
+                  key: _formKeyLogIn,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('Email'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 20),
                       TextFormField(
-                        key: _formKey3,
-                        controller: _email,
+                        controller: _emailLogIn,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -117,42 +117,31 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 20),
                       const Text('Password'),
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 20),
                       TextFormField(
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
-                            }
-                            else if (value.length < 6) {
+                          } else if (value.length < 6) {
                             return 'Password must be at least 6 characters long';
-                              }
-                           else if (!containsUpperCase(value)) {
-                                return 'Password must contain at least one uppercase letter';
-                              }
-                  
-                            else if (!containsLowerCase(value)) {
-                                return 'Password must contain at least one lowercase letter';
-                              }
-                  
-                            else if (!containsDigit(value)) {
-                                return 'Password must contain at least one digit';
-                              }
-                  
-                            else if (!containsSpecialCharacter(value)) {
-                                return 'Password must contain at least one special character';
-                              }
-                          else if (validatePassword(value) != null) {
+                          } else if (!containsUpperCase(value)) {
+                            return 'Password must contain at least one uppercase letter';
+                          } else if (!containsLowerCase(value)) {
+                            return 'Password must contain at least one lowercase letter';
+                          } else if (!containsDigit(value)) {
+                            return 'Password must contain at least one digit';
+                          } else if (!containsSpecialCharacter(value)) {
+                            return 'Password must contain at least one special character';
+                          } else if (validatePassword(value) != null) {
                             return 'Please enter a valid Password';
                           }
-                          
                           return null;
                         },
-                        controller: _password,
+                        controller: _passwordLogIn,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         obscureText: _obscureText,
-                        key:  _passkey,
                         decoration: InputDecoration(
                           hintText: "   Password",
                           hintStyle: TextStyle(
@@ -191,23 +180,12 @@ class _LoginState extends State<Login> {
                       Center(
                         child: TextButton(
                           onPressed: () {
-                            if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
-                              _formKey3.currentState?.validate();
-                              _passkey.currentState?.validate();
+                            if (_formKeyLogIn.currentState!.validate()) {
                               signInWithEmailAndPassword();
-                              
                             }
-                            else if(_email.text.isEmpty){
-                              showSuccessMessage(context, "Please enter your Email", duration: 2);
-                            }
-                            else if(_password.text.isEmpty){
-                              showSuccessMessage(context, "Please enter your password", duration: 2);
-                            }
-                            
-                            
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(mainColor),
+                            backgroundColor: WidgetStateProperty.all<Color>(mainColor),
                           ),
                           child: const Text(
                             'LOG IN',
@@ -254,36 +232,32 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> signInWithEmailAndPassword() async {
-    if(_email.text == 'admin@gmail.com' && _password.text == 'Admin@123') {
+    if (_emailLogIn.text == 'admin@gmail.com' && _passwordLogIn.text == 'Admin@123') {
       Navigator.pushAndRemoveUntil(
-  context,
-  MaterialPageRoute(
-    builder: (context) => const adminSplash(),
-  ),
-  (route) => false,
-);
-_clearForm();
-    }
-    else {
-      try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email.text,
-        password: _password.text,
+        context,
+        MaterialPageRoute(
+          builder: (context) => const adminSplash(),
+        ),
+        (route) => false,
       );
-      Navigator.pushAndRemoveUntil(
-  context,
-  MaterialPageRoute(
-    builder: (context) => const BottomNavUser(),
-  ),
-  (route) => false,
-);
-_clearForm();
-    } catch (e) {
-      // Handle errors here, such as displaying an error message to the user
-      // ignore: avoid_print
-      showSuccessMessage(context, "Email or password is incorrect", duration: 2);
-                            
-    }
+      _clearForm();
+    } else {
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailLogIn.text,
+          password: _passwordLogIn.text,
+        );
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BottomNavUser(),
+          ),
+          (route) => false,
+        );
+        _clearForm();
+      } catch (e) {
+        showSuccessMessage(context, "Email or password is incorrect", duration: 2);
+      }
     }
   }
 
@@ -291,4 +265,37 @@ _clearForm();
     final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
     return emailRegex.hasMatch(email);
   }
+}
+
+String? validatePassword(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Password is required';
+  } else if (value.length < 6) {
+    return 'Password must be at least 6 characters long';
+  } else if (!containsUpperCase(value)) {
+    return 'Password must contain at least one uppercase letter';
+  } else if (!containsLowerCase(value)) {
+    return 'Password must contain at least one lowercase letter';
+  } else if (!containsDigit(value)) {
+    return 'Password must contain at least one digit';
+  } else if (!containsSpecialCharacter(value)) {
+    return 'Password must contain at least one special character';
+  }
+  return null;
+}
+
+bool containsUpperCase(String value) {
+  return value.contains(RegExp(r'[A-Z]'));
+}
+
+bool containsLowerCase(String value) {
+  return value.contains(RegExp(r'[a-z]'));
+}
+
+bool containsDigit(String value) {
+  return value.contains(RegExp(r'[0-9]'));
+}
+
+bool containsSpecialCharacter(String value) {
+  return value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
 }

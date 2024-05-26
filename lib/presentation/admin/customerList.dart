@@ -21,7 +21,6 @@ class _CustomerListState extends State<CustomerList> {
           Center(child: IconButton(onPressed: (){
             showAlertDialog(context,"",Duration.zero);
           }, icon: const Icon(Icons.logout_rounded),)),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.abc))
           
         ],
            

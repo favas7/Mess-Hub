@@ -13,61 +13,38 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/WelcomeScreen/monika-grabkowska-9jdyCy-bMC4-unsplash.jpg',
-              ),
-              fit: BoxFit.cover,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/WelcomeScreen/monika-grabkowska-9jdyCy-bMC4-unsplash.jpg',
             ),
+            fit: BoxFit.cover,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const Login()),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          mainColor,
-                        ),
-                      ),
-                      child: const Text(
-                        '                          LOG IN                          ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextButton(
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const signUp()),
+                        MaterialPageRoute(builder: (context) => const Login()),
                       );
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
+                      backgroundColor: WidgetStateProperty.all<Color>(
                         mainColor,
                       ),
                     ),
                     child: const Text(
-                      '                          SIGN UP                          ',
+                      '                          LOG IN                          ',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -75,13 +52,34 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 100,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const signUp()),
+                    );
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      mainColor,
+                    ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                  child: const Text(
+                    '                          SIGN UP                          ',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: white,
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 100,
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

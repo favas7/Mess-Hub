@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.2.5
   google_fonts: null
   image_picker: 1.0.8
+  lottie: ^3.1.2
   numberpicker: ^2.1.2
 
 dev_dependencies:
@@ -66,6 +67,7 @@ flutter:
     - assets/admin/
     - assets/IntroScreen/
     - assets/adminProfile/
+    - assets/lottieFiles/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

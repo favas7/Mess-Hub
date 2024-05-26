@@ -103,10 +103,10 @@ class _forgotPassState extends State<forgotPass> {
                     _clearmail();
                   },
                        style: ButtonStyle(
-                        maximumSize: MaterialStateProperty.all(Size(
+                        maximumSize: WidgetStateProperty.all(Size(
                           MediaQuery.of(context).size.height - 580 , double.infinity
                         )),
-                        backgroundColor: MaterialStateProperty.all<Color>(const Color.fromRGBO(254, 114, 76, 1)),
+                        backgroundColor: WidgetStateProperty.all<Color>(const Color.fromRGBO(254, 114, 76, 1)),
                        ), child: const Text('             Sent New Password             ',
                        style: TextStyle(
                          fontSize: 15 ,   

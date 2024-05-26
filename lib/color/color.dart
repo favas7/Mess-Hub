@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color mainColor =Color.fromRGBO(244, 77, 32, 1);
+const Color mainColor =Color.fromRGBO(254, 114, 76, 1);
 const Color black = Colors.black;
 const Color adminBg = Color.fromRGBO(255, 204, 204, 1);
 const Color white = Colors.white;

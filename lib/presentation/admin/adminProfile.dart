@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:messhub/presentation/admin/adminProfileEdit.dart';
 
 class adminProfile extends StatelessWidget {
   const adminProfile({super.key});
@@ -38,9 +39,6 @@ class adminProfile extends StatelessWidget {
             List<String>ownerName=[];
             List<String>contact=[];
             List<String>address=[];
-            List<String>fullPlan=[];
-            List<String>twoTimeMeal=[];
-            List<String>lunchOnly=[];
             
             for(var detail in messDetails){
               messName1.add(detail['MessName']);
@@ -48,9 +46,6 @@ class adminProfile extends StatelessWidget {
               ownerName.add(detail['OwnerName']);
               contact.add(detail['Contact']);
               address.add(detail['Address']);
-              fullPlan.add(detail['FullPlan']);
-              twoTimeMeal.add(detail['TwoTimeMeal']);
-              lunchOnly.add(detail['LunchOnly']);
               }
 
            
@@ -65,6 +60,25 @@ class adminProfile extends StatelessWidget {
                             )
                           ,
                             Text(messName1[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            TextButton(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminProfileEdit()));
+                            }, child: Text('Edit profile')),
+                            SizedBox(
+                              height: 100,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
+                                  )
+                                ),
+                              ),
+                            )
                 ],
                         );
                         

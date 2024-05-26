@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/presentation/welcomeScreen/welcomeScreen.dart';
 class splashScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _splashScreenState extends State<splashScreen> {
   }
 
   void navigateToHome(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 3), () {
+    await Future.delayed(const Duration(seconds: 6), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const WelcomeScreen()),
@@ -36,15 +37,17 @@ class _splashScreenState extends State<splashScreen> {
           Center(
             child:
              Container(
-              width: 120, 
-              height: 115, 
+              width: 100, 
+              height: 100, 
              decoration: BoxDecoration(
                 borderRadius : BorderRadius.circular(20),
                 color: white
               )  ,
               
-               child: Image.asset('assets/Splash/icons8-restaurant-menu-100.png' ,
-                height: MediaQuery.of(context).size.height * .45, 
+               child: Lottie.asset('assets/lottieFiles/Animation - 1716625696831.json' ,
+               
+               animate: true,
+              height: MediaQuery.of(context).size.height * .45, 
                        width:
                        MediaQuery.of(context).size.width / 2, ),
                     

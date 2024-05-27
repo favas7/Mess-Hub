@@ -59,189 +59,194 @@ class _SignupState extends State<signUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Image.asset(
-              'assets/Login/Screenshot 2024-04-03 105949.png',
-              fit: BoxFit.fill,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 60, left: 10),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                );
-              },
-              icon: const Icon(Icons.arrow_back_ios, color: backIconColor),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 150),
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: black,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  CustomTextFormField(
-                    controller: _name,
-                    labelText: 'Full Name',
-                    hintText: 'Full Name',
-                    obscureText: false,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Name';
-                      }
-                      return null;
-                    },
-                    hintStyle: const TextStyle(color: textFieldColor),
-                    borderColor: mainColor,
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextFormField(
-                    controller: _email,
-                    labelText: 'Email',
-                    hintText: 'Email',
-                    obscureText: false,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      } else if (!isEmailValid(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                    hintStyle: const TextStyle(color: textFieldColor),
-                    borderColor: mainColor,
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextFormField(
-                    controller: _password,
-                    labelText: 'Password',
-                    hintText: 'Password',
-                    obscureText: _obscureText1,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscureText1 = !_obscureText1;
-                        });
-                      },
-                      icon: const Icon(Icons.remove_red_eye),
-                    ),
-                    suffixIconColor: textFieldColor,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Password';
-                      } else if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
-                      } else if (!containsUpperCase(value)) {
-                        return 'Password must contain at least one uppercase letter';
-                      } else if (!containsLowerCase(value)) {
-                        return 'Password must contain at least one lowercase letter';
-                      } else if (!containsDigit(value)) {
-                        return 'Password must contain at least one digit';
-                      } else if (!containsSpecialCharacter(value)) {
-                        return 'Password must contain at least one special character';
-                      } else if (validatePassword(value) != null) {
-                        return 'Please enter a valid Password';
-                      }
-                      return null;
-                    },
-                    hintStyle: const TextStyle(color: textFieldColor),
-                    borderColor: mainColor,
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextFormField(
-                    controller: _confirmPassword,
-                    labelText: 'Confirm Password',
-                    hintText: 'Confirm Password',
-                    obscureText: _obscureText2,
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _obscureText2 = !_obscureText2;
-                        });
-                      },
-                      icon: const Icon(Icons.remove_red_eye),
-                    ),
-                    suffixIconColor: textFieldColor,
-                    validator: (value) {
-                      if (value != _password.text) {
-                        return 'Password does not match';
-                      }
-                      return null;
-                    },
-                    hintStyle: const TextStyle(color: textFieldColor),
-                    borderColor: mainColor,
-                  ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          createUserWithEmailAndPassword(
-                            email: _email.text,
-                            password: _password.text,
-                          );
-                          _clearForm();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const IntroScreen1()),
-                          );
-                        }
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(mainColor),
-                      ),
-                      child: const Text(
-                        'SIGN UP',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 2 - 100,
-                      ),
-                      const Text("Already have an account"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => const Login()),
-                          );
-                        },
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(color: mainColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Stack(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Image.asset(
+                'assets/Login/Screenshot 2024-04-03 105949.png',
+                fit: BoxFit.fill,
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 60, left: 10),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                  );
+                },
+                icon: const Icon(Icons.arrow_back_ios, color: backIconColor),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 150),
+                    const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: black,
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    CustomTextFormField(
+                      controller: _name,
+                      labelText: 'Full Name',
+                      hintText: 'Full Name',
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Name';
+                        }
+                        return null;
+                      },
+                      hintStyle: const TextStyle(color: textFieldColor),
+                      borderColor: mainColor,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextFormField(
+                      controller: _email,
+                      labelText: 'Email',
+                      hintText: 'Email',
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        } else if (!isEmailValid(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
+                      hintStyle: const TextStyle(color: textFieldColor),
+                      borderColor: mainColor,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextFormField(
+                      controller: _password,
+                      labelText: 'Password',
+                      hintText: 'Password',
+                      obscureText: _obscureText1,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureText1 = !_obscureText1;
+                          });
+                        },
+                        icon: const Icon(Icons.remove_red_eye),
+                      ),
+                      suffixIconColor: textFieldColor,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Password';
+                        } else if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        } else if (!containsUpperCase(value)) {
+                          return 'Password must contain at least one uppercase letter';
+                        } else if (!containsLowerCase(value)) {
+                          return 'Password must contain at least one lowercase letter';
+                        } else if (!containsDigit(value)) {
+                          return 'Password must contain at least one digit';
+                        } else if (!containsSpecialCharacter(value)) {
+                          return 'Password must contain at least one special character';
+                        } else if (validatePassword(value) != null) {
+                          return 'Please enter a valid Password';
+                        }
+                        return null;
+                      },
+                      hintStyle: const TextStyle(color: textFieldColor),
+                      borderColor: mainColor,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextFormField(
+                      controller: _confirmPassword,
+                      labelText: 'Confirm Password',
+                      hintText: 'Confirm Password',
+                      obscureText: _obscureText2,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureText2 = !_obscureText2;
+                          });
+                        },
+                        icon: const Icon(Icons.remove_red_eye),
+                      ),
+                      suffixIconColor: textFieldColor,
+                      validator: (value) {
+                        if (value != _password.text) {
+                          return 'Password does not match';
+                        }
+                        return null;
+                      },
+                      hintStyle: const TextStyle(color: textFieldColor),
+                      borderColor: mainColor,
+                    ),
+                    const SizedBox(height: 30),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            createUserWithEmailAndPassword(
+                              email: _email.text,
+                              password: _password.text,
+                            );
+                            _clearForm();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const IntroScreen1()),
+                            );
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                        ),
+                        child: const Text(
+                          'SIGN UP',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2 - 100,
+                        ),
+                        const Text("Already have an account"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const Login()),
+                            );
+                          },
+                          child: const Text(
+                            'Log In',
+                            style: TextStyle(color: mainColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

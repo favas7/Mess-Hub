@@ -3,8 +3,8 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/presentation/admin/adminHome.dart';
 import 'package:messhub/presentation/admin/adminProfile.dart';
+import 'package:messhub/presentation/admin/adminHome.dart';
 import 'package:messhub/presentation/admin/customerList.dart';
 
 class BottomNav extends StatefulWidget {
@@ -41,7 +41,7 @@ class _BottomNavState extends State<BottomNav> {
           });
         },
         children: const [
-          adminHome(),
+          AdminHome(),
           CustomerList(),
           adminProfile(),
         ],

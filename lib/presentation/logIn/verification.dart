@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/presentation/logIn/logIn.dart';
 
 class verification extends StatefulWidget {
   const verification({super.key});
@@ -22,47 +23,64 @@ class _verificationState extends State<verification> {
             child: Image.asset('assets/Login/ForgotPass.png',
             fit: BoxFit.fill,),), 
             
-       const Center(
+        Center(
          child: Column(
           children: [
-            SizedBox(height: 100,), 
-            SizedBox(
+            const SizedBox(height: 100,), 
+            const SizedBox(
               height: 80,
             ) 
-            ,Text('Verification code' ,
+            ,const Text('Verification code' ,
             style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.bold,
               color: black
             ),),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 15,right: 15,),
+              padding: const EdgeInsets.only(left: 15,right: 15,),
               child: Column(
                 
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(20),
                     child: Text('Password reset has sent to the email \n           Please check your mail',style: 
                     TextStyle(
                         color: textFieldColor
                       ),),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   
-                SizedBox(height: 4),
-                  SizedBox(
+                const SizedBox(height: 4),
+                  const SizedBox(
                     height: 50,
                   ),
-                
+                TextButton(
+                              onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+                  },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(
+                                  mainColor,
+                                ),
+                              ),
+                              child: const Text(
+                                'Return to Log In',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: white,
+                                ),
+                              ),
+                            )
                 ],
               ),
             )

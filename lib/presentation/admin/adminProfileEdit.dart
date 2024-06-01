@@ -140,280 +140,325 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
     return Scaffold(
       backgroundColor: adminBg,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  'ADMIN',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: mainColor,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Stack(
+        child: StreamBuilder<Object>(
+          stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if(snapshot.connectionState==ConnectionState.waiting){
+              return CircularProgressIndicator();
+            }
+            else if(!snapshot.hasData ){
+              
+              return Center(child: Text('No Data Found'),);
+              
+            }
+            else{
+            List<QueryDocumentSnapshot>messDetails = snapshot.data?.docs;
+            List<String>mainImageData = [];
+            List<String>messName=[];
+            List<String>vegImageData = [];
+            List<String>nonVegImageData = [];
+            List<String>ownerName=[];
+            List<String>contact=[];
+            List<String>address=[];
+            List<String>fullPlan=[];
+            List<String>twoTimeMeal=[];
+            List<String>lunchOnly=[];
+            for(var detail in messDetails){
+              messName.add(detail['MessName']);
+              mainImageData.add(detail['mainImage']);
+              vegImageData.add(detail['vegImage']);
+              nonVegImageData.add(detail['nonVegImage']);
+              ownerName.add(detail['OwnerName']);
+              contact.add(detail['Contact']);
+              address.add(detail['Address']);
+              fullPlan.add(detail['FullPlan']);
+              twoTimeMeal.add(detail['TwoTimeMeal']);
+              lunchOnly.add(detail['LunchOnly']);
+              }
+
+           
+            return ListView.builder(
+          itemCount: 1, 
+          itemBuilder: (BuildContext context, int index) {
+            return SingleChildScrollView(
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(15),
+                  const SizedBox(height: 20),
+                  const Center(
+                    child: Text(
+                      'ADMIN',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: mainColor,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(130.0), 
-                    child: GestureDetector(
-                      onTap: () {
-                        mainImagepicker();
-                      },
-                      child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
-                    ),
-                  ),
-                  Positioned(
-                    left: 100,
-                    top: 230,
-                    child: InkWell(
-                      onTap: () {},
-                      child: const Text(
-                        'ADD IMAGE OF MESS PROFILE',
-                        style: TextStyle(
-                          color: mainColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
+                  const SizedBox(height: 20),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(28.0), 
+                        child: GestureDetector(
+                          onTap: () {
+                            mainImagepicker();
+                          },
+                          child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
+                        ),
+                      ),
+                      Positioned(
+                        left: 55,
+                        top: 150,
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Text(
+                            'PLEASE TAP TO UPLOAD MESS PROFILE',
+                            style: TextStyle(
+                              color: mainColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Positioned(left: 180,top: 310,
+                      //   child: TextButton(onPressed: (){}, child: Text("EDIT",style: TextStyle(
+                      //     color: mainColor
+                      //   ),))),
+                      Padding(
+                        padding: EdgeInsets.all(28),
+                        child: mainImageData.isNotEmpty
+                            ? SizedBox(
+                                width: double.infinity,
+                                height: 290,
+                                child: Image.network(mainImageData[index],
+                                fit: BoxFit.cover)
+                                
+            
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
                   ),
-                  // Positioned(left: 180,top: 310,
-                  //   child: TextButton(onPressed: (){}, child: Text("EDIT",style: TextStyle(
-                  //     color: mainColor
-                  //   ),))),
-                  Padding(
-                    padding: EdgeInsets.all(28),
-                    child: mainImage.isNotEmpty
-                        ? SizedBox(
-                            width: double.infinity,
-                            height: 290,
-                            child: Image.network(mainImage,
-                            fit: BoxFit.cover)
-                            
-
-                          )
-                        : const SizedBox(),
+                  const SizedBox(height: 20),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 1.7,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                customTextField(
+                                  labelText: 'Name of mess owner',
+                                  controller: _ownername,
+                                ),
+                                const SizedBox(height: 20),
+                                customTextField(
+                                  labelText: 'Name of mess',
+                                  controller: _messname,
+                                ),
+                                const SizedBox(height: 20),
+                                customTextField(
+                                  textInputType: TextInputType.numberWithOptions(),
+                                  labelText: 'Contact',
+                                  controller: _contact,
+                                ),
+                                const SizedBox(height: 20),
+                                customTextField(
+                                  labelText: 'Address',
+                                  controller: _adress,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Stack(
-                children: [
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 110,
+                        top: 60,
+                        child: IconButton(
+                          onPressed: () {
+                            vegImagepicker();
+                          },
+                          icon: const Icon(Icons.add),
+                          iconSize: 150,
+                          color: mainColor,
+                        ),
+                      ),
+                      Positioned(
+                        left: 100,
+                        top: 230,
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Text(
+                            'ADD IMAGE OF VEG MENU',
+                            style: TextStyle(
+                              color: mainColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(28),
+                        child: vegImageData.isNotEmpty 
+                            ? SizedBox(
+                                width: double.infinity,
+                                height: 290,
+                                child: Image.network(
+                                  vegImageData[index],
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 110,
+                        top: 60,
+                        child: IconButton(
+                          onPressed: () {
+                            nonvegImagepicker();
+                          },
+                          icon: const Icon(Icons.add),
+                          iconSize: 150,
+                          color: mainColor,
+                        ),
+                      ),
+                      Positioned(
+                        left: 100,
+                        top: 230,
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Text(
+                            'ADD IMAGE OF NON VEG MENU',
+                            style: TextStyle(
+                              color: mainColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(28),
+                        child: nonVegImageData.isNotEmpty
+                            ? SizedBox(
+                                width: double.infinity,
+                                height: 290,
+                                child: Image.network(
+                                  nonVegImageData[index],
+                                  fit: BoxFit.cover, 
+                                ),
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                  const Row(
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'Price(/Month)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(28.0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 1.7,
+                      height: MediaQuery.of(context).size.height / 2.5,
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: white,
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(14),
+                        padding: const EdgeInsets.all(12),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             customTextField(
-                              labelText: 'Name of mess owner',
-                              controller: _ownername,
+                              labelText: 'Full Plan',
+                              controller: _fullplan,
+                              textInputType: TextInputType.numberWithOptions()
                             ),
-                            const SizedBox(height: 20),
                             customTextField(
-                              labelText: 'Name of mess',
-                              controller: _messname,
+                              labelText: 'Breakfast And Dinner',
+                              controller: _twotime,
+                              textInputType: TextInputType.numberWithOptions()
                             ),
-                            const SizedBox(height: 20),
                             customTextField(
-                              textInputType: TextInputType.numberWithOptions(),
-                              labelText: 'Contact',
-                              controller: _contact,
-                            ),
-                            const SizedBox(height: 20),
-                            customTextField(
-                              labelText: 'Address',
-                              controller: _adress,
+                              labelText: 'Lunch Only',
+                              controller: _lunch,
+                              textInputType: TextInputType.numberWithOptions()
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 110,
-                    top: 60,
-                    child: IconButton(
-                      onPressed: () {
-                        vegImagepicker();
-                      },
-                      icon: const Icon(Icons.add),
-                      iconSize: 150,
-                      color: mainColor,
-                    ),
-                  ),
-                  Positioned(
-                    left: 100,
-                    top: 230,
-                    child: InkWell(
-                      onTap: () {},
-                      child: const Text(
-                        'ADD IMAGE OF VEG MENU',
-                        style: TextStyle(
-                          color: mainColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(28),
-                    child: vegImage.isNotEmpty 
-                        ? SizedBox(
-                            width: double.infinity,
-                            height: 290,
-                            child: Image.network(
-                              vegImage,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
-              ),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 110,
-                    top: 60,
-                    child: IconButton(
-                      onPressed: () {
-                        nonvegImagepicker();
-                      },
-                      icon: const Icon(Icons.add),
-                      iconSize: 150,
-                      color: mainColor,
-                    ),
-                  ),
-                  Positioned(
-                    left: 100,
-                    top: 230,
-                    child: InkWell(
-                      onTap: () {},
-                      child: const Text(
-                        'ADD IMAGE OF NON VEG MENU',
-                        style: TextStyle(
-                          color: mainColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(28),
-                    child: nonvegImage.isNotEmpty
-                        ? SizedBox(
-                            width: double.infinity,
-                            height: 290,
-                            child: Image.network(
-                              nonvegImage,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
-              ),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    'Price(/Month)',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(28.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      children: [
-                        customTextField(
-                          labelText: 'Full Plan',
-                          controller: _fullplan,
-                          textInputType: TextInputType.numberWithOptions()
-                        ),
-                        customTextField(
-                          labelText: 'Breakfast And Dinner',
-                          controller: _twotime,
-                          textInputType: TextInputType.numberWithOptions()
-                        ),
-                        customTextField(
-                          labelText: 'Lunch Only',
-                          controller: _lunch,
-                          textInputType: TextInputType.numberWithOptions()
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
+            );
+            }
+            );
+        }
+          },
         ),
       ),
       

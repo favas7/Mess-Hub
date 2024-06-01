@@ -15,7 +15,7 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( 
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -58,22 +58,42 @@ class _AdminHomeState extends State<AdminHome> {
                       );
                     },
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.6,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: adminBg
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.5,
                       width: double.infinity,
-                      color: adminBg,
-                      child: Column(
+                      
+                      child: Stack(
                         children: [
-                          Text(
-                            detail['MessName'],
-                            style: const TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 85,top: 30 ),
+                            child: Image.network(
+                              detail['mainImage'],
+                              fit: BoxFit.contain,   
                             ),
+                          ),Positioned(
+                            bottom: 30 ,left: 110,
+                            child: Text(
+                              detail['MessName'],
+                              style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            
                           ),
-                          Image.network(
-                            detail['mainImage'],
-                            fit: BoxFit.cover,
-                          ),
+                          Positioned(
+                            bottom: 0,
+                            child: Row(
+                              children: [
+                                IconButton(onPressed: (){}, icon: const Icon(Icons.location_on)),
+                            Text(details['address']) 
+                              ],
+                            ),
+                          )
+                          
                         ],
                       ),
                     ),

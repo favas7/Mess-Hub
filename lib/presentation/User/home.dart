@@ -20,7 +20,14 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: adminBg,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text("MessHub",style: TextStyle(
+          color: mainColor,
+          fontWeight: FontWeight.bold
+          ),), 
+      ),
       body: SafeArea(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
@@ -57,15 +64,21 @@ class _homeState extends State<home> {
                         );
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height*0.6,
-                  width: 300,
-                  color: adminBg,
+                  height: MediaQuery.of(context).size.height*0.5,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: adminBg
+                  ),
                   child: Column(
                     children: [
                       Text(messName[index],style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold
                       ),),
+                      SizedBox(
+                        height: 50,
+                      ),
                       Image.network(mainImage[index],
                       fit: BoxFit.cover,)
                     ],

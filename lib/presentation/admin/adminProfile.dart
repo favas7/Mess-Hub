@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:messhub/color/color.dart';
 import 'package:messhub/presentation/admin/adminProfileEdit.dart';
 
 class adminProfile extends StatelessWidget {
@@ -54,15 +55,13 @@ class adminProfile extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
-                            CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(mainImage[index]),
-                            )
-                          ,
-                            Text(messName1[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                            TextButton(onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminProfileEdit()));
-                            }, child: Text('Edit profile')),
+                          //   CircleAvatar(
+                          //   radius: 50,
+                          //   backgroundImage: NetworkImage(mainImage[index]),
+                          //   )
+                          // ,
+                          //   Text(messName1[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            TextButton(onPressed: (){}, child: Text('Edit profile')),
                             SizedBox(
                               height: 100,
                             ),
@@ -71,14 +70,31 @@ class adminProfile extends StatelessWidget {
                               child: Container(
                                 height: 60,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey,
+                                  
                                   border: Border.all(
                                     color: Colors.black,
                                     width: 1,
                                   )
                                 ),
                               ),
-                            )
+                            ),SizedBox(
+                              height: 100,
+                            ),
+                            Text('ADD NEW MESS',style: TextStyle(
+                              fontSize: 20,
+                            ),),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CircleAvatar(
+                              radius: 50,
+                              child: IconButton(onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminProfileEdit()));
+                            }, icon: Icon(Icons.add_rounded,
+                              color: textFieldColor,
+                              size: 50,
+                              )),
+                            ) 
                 ],
                         );
                         

@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/WelcomeScreen/monika-grabkowska-9jdyCy-bMC4-unsplash.jpg',
+              'assets/WelcomeScreen/monika-grabkowska-9jdyCy-bMC4-unsplash.png',
             ),
             fit: BoxFit.cover,
           ),
@@ -26,6 +26,32 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const Padding( 
+              padding: EdgeInsets.only(right: 60),
+              child: Text("Welcome to",style: TextStyle(
+                color: black,
+                fontSize: 55,
+                fontWeight: FontWeight.bold,
+              ),),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 140),
+              child: Text("Mess Hub",style: TextStyle(
+                  color: mainColor,
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
+                ),),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 140),
+              child: Text('Your favourite foods delivered \n fast at your door.'),
+            ),
+            const SizedBox(
+              height: 300, 
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

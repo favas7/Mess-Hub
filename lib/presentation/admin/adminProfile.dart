@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/popAlert.dart';
 import 'package:messhub/presentation/admin/adminProfileEdit.dart';
 
 class adminProfile extends StatelessWidget {
@@ -94,7 +95,13 @@ class adminProfile extends StatelessWidget {
                               color: textFieldColor,
                               size: 50,
                               )),
-                            ) 
+                            ) ,
+                            SizedBox(
+                              height: 80,
+                            ),
+                            IconButton(onPressed: (){
+            showAlertDialog(context,"",Duration.zero);
+          }, icon: const Icon(Icons.logout_rounded),)
                 ],
                         );
                         

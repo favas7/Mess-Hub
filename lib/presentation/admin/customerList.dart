@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:messhub/functions/popAlert.dart';
 
 class CustomerList extends StatefulWidget {
   const CustomerList({super.key});
@@ -18,11 +17,7 @@ class _CustomerListState extends State<CustomerList> {
       body: SingleChildScrollView(
         child: Column(children: [
           Container(height: 100),
-          Center(child: IconButton(onPressed: (){
-            showAlertDialog(context,"",Duration.zero);
-          }, icon: const Icon(Icons.logout_rounded),)),
-          
-        ],
+          ],
            
         ),
       ),

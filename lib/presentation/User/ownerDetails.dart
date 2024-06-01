@@ -82,6 +82,10 @@ class _ownerDetailsState extends State<ownerDetails> {
                     const SizedBox(height: 20,), 
                     Image.network(nonVegImage[widget.index],
                     fit: BoxFit.cover,),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text('Owner Name'),
                     Text(ownerName[widget.index]),
                     Text(contact[widget.index]),
                     Text(address[widget.index]),

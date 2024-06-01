@@ -4,14 +4,17 @@ import 'package:messhub/color/color.dart';
 Widget customTextField({
   required String labelText,
   required TextEditingController controller,
+  final Widget? child,
   String? hintText,
   String? Function(String?)? validator,
   TextInputType? textInputType
+  
    // Validator function parameter
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      
       Text(
         labelText,
         style: const TextStyle(
@@ -47,6 +50,7 @@ Widget customTextField({
         ),
         validator: validator, // Set validator function
       ),
+      
     ],
   );
 }

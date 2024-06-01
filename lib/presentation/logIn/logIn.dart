@@ -246,6 +246,15 @@ class _LoginState extends State<Login> {
         (route) => false,
       );
       _clearForm();
+    } else if (_emailLogIn.text == 'owner@gmail.com' && _passwordLogIn.text == 'Owner@123') {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const adminSplash(),
+        ),
+        (route) => false,
+      );
+      _clearForm();
     } else {
       try {
         await FirebaseAuth.instance.signInWithEmailAndPassword(

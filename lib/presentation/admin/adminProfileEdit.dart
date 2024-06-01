@@ -140,47 +140,7 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
     return Scaffold(
       backgroundColor: adminBg,
       body: SafeArea(
-        child: StreamBuilder<Object>(
-          stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if(snapshot.connectionState==ConnectionState.waiting){
-              return CircularProgressIndicator();
-            }
-            else if(!snapshot.hasData ){
-              
-              return Center(child: Text('No Data Found'),);
-              
-            }
-            else{
-            List<QueryDocumentSnapshot>messDetails = snapshot.data?.docs;
-            List<String>mainImageData = [];
-            List<String>messName=[];
-            List<String>vegImageData = [];
-            List<String>nonVegImageData = [];
-            List<String>ownerName=[];
-            List<String>contact=[];
-            List<String>address=[];
-            List<String>fullPlan=[];
-            List<String>twoTimeMeal=[];
-            List<String>lunchOnly=[];
-            for(var detail in messDetails){
-              messName.add(detail['MessName']);
-              mainImageData.add(detail['mainImage']);
-              vegImageData.add(detail['vegImage']);
-              nonVegImageData.add(detail['nonVegImage']);
-              ownerName.add(detail['OwnerName']);
-              contact.add(detail['Contact']);
-              address.add(detail['Address']);
-              fullPlan.add(detail['FullPlan']);
-              twoTimeMeal.add(detail['TwoTimeMeal']);
-              lunchOnly.add(detail['LunchOnly']);
-              }
-
-           
-            return ListView.builder(
-          itemCount: 1, 
-          itemBuilder: (BuildContext context, int index) {
-            return SingleChildScrollView(
+        child: SingleChildScrollView(
               child: Column(
                 children: [
                   const SizedBox(height: 20),
@@ -238,11 +198,11 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                       //   ),))),
                       Padding(
                         padding: EdgeInsets.all(28),
-                        child: mainImageData.isNotEmpty
+                        child: mainImage.isNotEmpty
                             ? SizedBox(
                                 width: double.infinity,
                                 height: 290,
-                                child: Image.network(mainImageData[index],
+                                child: Image.network(mainImage,
                                 fit: BoxFit.cover)
                                 
             
@@ -271,6 +231,7 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                                 customTextField(
                                   labelText: 'Name of mess owner',
                                   controller: _ownername,
+                                  
                                 ),
                                 const SizedBox(height: 20),
                                 customTextField(
@@ -337,12 +298,12 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                       ),
                       Padding(
                         padding: EdgeInsets.all(28),
-                        child: vegImageData.isNotEmpty 
+                        child: vegImage.isNotEmpty 
                             ? SizedBox(
                                 width: double.infinity,
                                 height: 290,
                                 child: Image.network(
-                                  vegImageData[index],
+                                  vegImage,
                                   fit: BoxFit.cover,
                                 ),
                               )
@@ -392,12 +353,12 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                       ),
                       Padding(
                         padding: EdgeInsets.all(28),
-                        child: nonVegImageData.isNotEmpty
+                        child: nonvegImage.isNotEmpty
                             ? SizedBox(
                                 width: double.infinity,
                                 height: 290,
                                 child: Image.network(
-                                  nonVegImageData[index],
+                                  nonvegImage,
                                   fit: BoxFit.cover, 
                                 ),
                               )
@@ -454,12 +415,7 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                   )
                 ],
               ),
-            );
-            }
-            );
-        }
-          },
-        ),
+            )
       ),
       
       floatingActionButton: FloatingActionButton(

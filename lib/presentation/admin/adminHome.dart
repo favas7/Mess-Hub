@@ -16,6 +16,7 @@ class _AdminHomeState extends State<AdminHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
+      backgroundColor: adminBg,
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -60,7 +61,15 @@ class _AdminHomeState extends State<AdminHome> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: adminBg
+                        boxShadow: [
+                BoxShadow(
+                  color: black.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 15,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+                        color: white
                       ),
                       height: MediaQuery.of(context).size.height * 0.5,
                       width: double.infinity,

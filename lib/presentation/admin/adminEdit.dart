@@ -21,15 +21,42 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  const BottomNav()),
-                      );
-                    },
-                    icon: const Icon(Icons.arrow_back_ios, color: Color.fromRGBO(17, 23, 25, 1)),
-                  ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: MediaQuery.of(context).size.width/1.5,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: adminBg,
+                  boxShadow: [
+                BoxShadow(
+                  color: black.withOpacity(0.5),
+                  spreadRadius: 3,
+                  blurRadius: 15,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],borderRadius: BorderRadius.circular(25) 
+                ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 100,
+                    child: Image.network(widget.data['mainimage'],fit: BoxFit.cover,)) ,
+              IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  const BottomNav()),
+                        );
+                      },
+                      icon: const Icon(Icons.arrow_back_ios, color: Color.fromRGBO(17, 23, 25, 1)),
+                    ),
+                    
+                   
+                ],
+              ),
+                        ),
+            ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -40,10 +67,11 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                       color: black
                     ),
                   )
-            // Text(widget.data['messname'])
+            
           ],
         ),
       ),
     );
   }
 }
+// Text(widget.data['messname'])

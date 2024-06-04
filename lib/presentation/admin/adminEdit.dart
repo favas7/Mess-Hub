@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/widgets/bottomNavAdmin.dart';
 
 class AdminDetailsEdit extends StatefulWidget {
   final Map<String,dynamic>data;
@@ -16,6 +15,9 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.data['messname']),
+      ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -31,7 +33,7 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                   boxShadow: [
                 BoxShadow(
                   color: black.withOpacity(0.5),
-                  spreadRadius: 3,
+                  spreadRadius: 0,
                   blurRadius: 15,
                   offset: const Offset(0, 3), // changes position of shadow
                 ),
@@ -41,16 +43,8 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                 children: [
                   Positioned(
                     left: 100,
-                    child: Image.network(widget.data['mainimage'],fit: BoxFit.cover,)) ,
-              IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>  const BottomNav()),
-                        );
-                      },
-                      icon: const Icon(Icons.arrow_back_ios, color: Color.fromRGBO(17, 23, 25, 1)),
-                    ),
+                    child: Image.network(widget.data['mainimage']
+                    ,fit: BoxFit.cover,)) ,
                     
                    
                 ],
@@ -64,7 +58,30 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: black
+                      color: adminBg,
+                      boxShadow: [
+                BoxShadow(
+                  color: black.withOpacity(0.5),
+                  spreadRadius: 0,
+                  blurRadius: 15,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ]
+                    ),
+                  ),
+                  Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: adminBg,
+                      boxShadow: [
+                BoxShadow(
+                  color: black.withOpacity(0.5),
+                  spreadRadius: 0,
+                  blurRadius: 15,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ]
                     ),
                   )
             

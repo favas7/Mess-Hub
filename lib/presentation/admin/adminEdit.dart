@@ -69,6 +69,26 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
               ]
                     ),
                   ),
+                  const SizedBox(
+                    height:50
+                  ),
+                  Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: adminBg,
+                      boxShadow: [
+                BoxShadow(
+                  color: black.withOpacity(0.5),
+                  spreadRadius: 0,
+                  blurRadius: 15,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ]
+                    ),
+                  ),const SizedBox(
+                    height:50
+                  ),
                   Container(
                     height: 100,
                     decoration: BoxDecoration(

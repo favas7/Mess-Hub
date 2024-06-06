@@ -130,15 +130,19 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
   );
 }
 
-// @override
-//   void initState() {
-//     super.initState();
-//     _messname.text = ;
-//   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 80), 
+          child: Text('ADMIN',style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: mainColor
+          ),),
+        ),
+      ),
       backgroundColor: adminBg,
       body: GestureDetector(
         onTap: (){
@@ -149,16 +153,7 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
-                    const Center(
-                      child: Text(
-                        'ADMIN',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: mainColor,
-                        ),
-                      ),
-                    ),
+                    
                     const SizedBox(height: 20),
                     Stack(
                       children: [
@@ -251,7 +246,7 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                                   ),
                                   const SizedBox(height: 20),
                                   customTextField(
-                                    labelText: 'Address',
+                                    labelText: 'Place',
                                     controller: _adress,
                                   ),
                                 ],

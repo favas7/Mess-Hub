@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/presentation/admin/adminEdit.dart';
 
@@ -15,7 +16,7 @@ class AdminHome extends StatefulWidget {
 class _AdminHomeState extends State<AdminHome> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
+    return Scaffold(
       backgroundColor: adminBg,
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
@@ -53,7 +54,7 @@ class _AdminHomeState extends State<AdminHome> {
                         MaterialPageRoute(
                           builder: (context) => AdminDetailsEdit(
                             index: index,
-                            data: details, 
+                            data: details,
                           ),
                         ),
                       );
@@ -62,47 +63,57 @@ class _AdminHomeState extends State<AdminHome> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         boxShadow: [
-                BoxShadow(
-                  color: black.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 15,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],
-                        color: white
+                          BoxShadow(
+                            color: black.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 15,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        color: white,
                       ),
                       height: MediaQuery.of(context).size.height * 0.5,
                       width: double.infinity,
-                      
                       child: Stack(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 85,top: 30 ),
-                            child: Image.network(
-                              detail['mainImage'],
-                              fit: BoxFit.contain,   
-                            ),
-                          ),Positioned(
-                            bottom: 30 ,left: 110,
-                            child: Text(
-                              detail['MessName'],
-                              style: const TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            
+                          Image.network(
+                            detail['mainImage'],
+                            height: 300,
+                            fit: BoxFit.fill,
                           ),
                           Positioned(
-                            bottom: 0,
+                            bottom: 100,
+                            left: 16,
+                            child: Text(
+                              detail['MessName'],
+                              style: GoogleFonts.oswald(
+                                textStyle: const TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 60,
+                            left: 0,
                             child: Row(
                               children: [
-                                IconButton(onPressed: (){}, icon: const Icon(Icons.location_on)),
-                            Text(details['address']) 
+                                IconButton(onPressed: () {}, icon: const Icon(Icons.location_on)),
+                                Text(details['address']),
+                                const SizedBox(width: 20,),
+                                IconButton(onPressed: (){}, icon: const Icon(Icons.star,color: Colors.yellow,)),
+                                const Text('3.4')
                               ],
                             ),
-                          )
-                          
+                          ),
+                          Positioned(
+                            right: 20,
+                            child: IconButton(
+                              onPressed: () {}, 
+                              icon: const Icon(Icons.favorite, size: 30,color: white,),
+                            ),
+                          ),
                         ],
                       ),
                     ),

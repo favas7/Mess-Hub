@@ -41,10 +41,9 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                 ),
               child: Stack(
                 children: [
-                  Positioned(
-                    left: 100,
-                    child: Image.network(widget.data['mainimage']
-                    ,fit: BoxFit.cover,)) ,
+                  Image.network(widget.data['mainimage'],
+                  height: 300,
+                  fit: BoxFit.fill,) , 
                     
                    
                 ],

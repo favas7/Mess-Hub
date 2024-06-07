@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:messhub/color/color.dart';
 
 class AdminDetailsEdit extends StatefulWidget {
   final Map<String,dynamic>data;
@@ -19,92 +18,31 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
         title: Text(widget.data['messname']),
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: MediaQuery.of(context).size.width/1.5,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: adminBg,
-                  boxShadow: [
-                BoxShadow(
-                  color: black.withOpacity(0.5),
-                  spreadRadius: 0,
-                  blurRadius: 15,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],borderRadius: BorderRadius.circular(25) 
-                ),
-              child: Stack(
+        child: Padding(
+          padding: const EdgeInsets.all(14.0), 
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
                 children: [
                   Image.network(widget.data['mainimage'],
                   height: 300,
-                  fit: BoxFit.fill,) , 
-                    
-                   
-                ],
+                  fit: BoxFit.fill,), 
+                  ],
               ),
-                        ),
-            ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: adminBg,
-                      boxShadow: [
-                BoxShadow(
-                  color: black.withOpacity(0.5),
-                  spreadRadius: 0,
-                  blurRadius: 15,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]
-                    ),
-                  ),
-                  const SizedBox(
-                    height:50
-                  ),
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: adminBg,
-                      boxShadow: [
-                BoxShadow(
-                  color: black.withOpacity(0.5),
-                  spreadRadius: 0,
-                  blurRadius: 15,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]
-                    ),
-                  ),const SizedBox(
-                    height:50
-                  ),
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: adminBg,
-                      boxShadow: [
-                BoxShadow(
-                  color: black.withOpacity(0.5),
-                  spreadRadius: 0,
-                  blurRadius: 15,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ]
-                    ),
-                  )
-            
-          ],
+                    const SizedBox(
+                      height: 20,
+                    ),const Text('About',style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20
+                    ),),
+                  const Text('Description about the mess in detail to understand customer. Description about the mess in detail to understand '),
+                    
+                    
+              
+            ],
+          ),
         ),
       ),
     );

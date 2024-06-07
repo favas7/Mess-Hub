@@ -100,20 +100,31 @@ class _AdminHomeState extends State<AdminHome> {
                             child: Row(
                               children: [
                                 IconButton(onPressed: () {}, icon: const Icon(Icons.location_on)),
-                                Text(details['address']),
+                                Text(details['address'],style: const TextStyle(
+                                  fontWeight: FontWeight.bold
+                                ),),
                                 const SizedBox(width: 20,),
                                 IconButton(onPressed: (){}, icon: const Icon(Icons.star,color: Colors.yellow,)),
-                                const Text('3.4')
+                                const Text('3.4'),
+
                               ],
                             ),
                           ),
+                          const Positioned(
+                            bottom: 10,left: 20,
+                            child: Text(' Description about the mess in detail to understand \n customer.Description about the mess in detail to \n understand ')),
                           Positioned(
-                            right: 20,
+                            right: 10,
+                            bottom: 95,
                             child: IconButton(
                               onPressed: () {}, 
-                              icon: const Icon(Icons.favorite, size: 30,color: white,),
+                              icon: const Icon(Icons.favorite, size: 30,color: black,
+                              ),
                             ),
                           ),
+
+                        
+
                         ],
                       ),
                     ),

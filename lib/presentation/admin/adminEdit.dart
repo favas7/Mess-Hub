@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:messhub/color/color.dart';
 
 class AdminDetailsEdit extends StatefulWidget {
   final Map<String,dynamic>data;
@@ -38,7 +39,31 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                       fontSize: 20
                     ),),
                   const Text('Description about the mess in detail to understand customer. Description about the mess in detail to understand '),
-                    
+                  const SizedBox(
+                    height: 20,
+                  ),
+                    // const Text('MENU',style: TextStyle(
+                    //   fontWeight: FontWeight.bold,
+                    //   fontSize: 20
+                    // ),),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextButton(onPressed: (){},style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                        ),
+                        child: const Text(
+                          '                 CLICK HERE FOR MENU                 ',  
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: white,
+                          ),
+                        ),),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        
                     
               
             ],

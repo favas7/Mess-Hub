@@ -78,7 +78,7 @@ class _AdminHomeState extends State<AdminHome> {
                         children: [
                           Image.network(
                             detail['mainImage'],
-                            height: 300,
+                            height: MediaQuery.of(context).size.height/3.2,
                             fit: BoxFit.fill,
                           ),
                           Positioned(

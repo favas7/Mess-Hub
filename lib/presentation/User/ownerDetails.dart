@@ -1,109 +1,199 @@
-// ignore_for_file: file_names, camel_case_types
+// ignore_for_file: file_names
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/presentation/admin/menuViewer.dart';
 
-class ownerDetails extends StatefulWidget {
+class OwnerDetails extends StatefulWidget {
+  final Map<String, dynamic> data;
   final int index;
-  const ownerDetails({super.key, required this.index});
+
+  const OwnerDetails({Key? key, required this.index, required this.data}) : super(key: key);
 
   @override
-  State<ownerDetails> createState() => _ownerDetailsState();
+  State<OwnerDetails> createState() => _OwnerDetailsState();
 }
 
-class _ownerDetailsState extends State<ownerDetails> {
-  
+class _OwnerDetailsState extends State<OwnerDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: adminBg,
-      body: SafeArea(child: 
-      StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
-          // initialData: initialData,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if(snapshot.connectionState==ConnectionState.waiting){
-              return const CircularProgressIndicator();
-            }
-            else if(!snapshot.hasData ){
-              
-              return const Center(child: Text('No Data Found'),);
-              
-            }
-            else{
-            List<QueryDocumentSnapshot>messDetails = snapshot.data?.docs;
-            List<String>vegImage = [];
-            List<String>nonVegImage = [];
-            List<String>messName1=[];
-            List<String>ownerName=[];
-            List<String>contact=[];
-            List<String>address=[];
-            List<String>fullPlan=[];
-            List<String>twoTimeMeal=[];
-            List<String>lunchOnly=[];
-            for(var detail in messDetails){
-              messName1.add(detail['MessName']);
-              vegImage.add(detail['vegImage']);
-              nonVegImage.add(detail['nonVegImage']);
-              ownerName.add(detail['OwnerName']);
-              contact.add(detail['Contact']);
-              address.add(detail['Address']);
-              fullPlan.add(detail['FullPlan']);
-              twoTimeMeal.add(detail['TwoTimeMeal']);
-              lunchOnly.add(detail['LunchOnly']);
-              }
-
-           
-            return ListView.builder(
-          itemCount: 1,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.all(24.0), 
-              child: Container(
-                color: adminBg,
-                child: Column(
-                  children: [
-                    Text(messName1[widget.index],style: const TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold
-                    ),),
-                    const SizedBox(height: 20,),
-                    const Text('VEG MENU',style: TextStyle(
-                      fontSize: 20,
-                    )),
-                    const SizedBox(height: 20,),
-                    Image.network(vegImage[widget.index],
-                    fit: BoxFit.cover,),
-                    const SizedBox(height: 20,),
-                    const Text('NON VEG MENU',style: TextStyle(
-                      fontSize: 20,
-                      )),
-                    const SizedBox(height: 20,), 
-                    Image.network(nonVegImage[widget.index],
-                    fit: BoxFit.cover,),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text('Owner Name'),
-                    Text(ownerName[widget.index]),
-                    Text(contact[widget.index]),
-                    Text(address[widget.index]),
-                    Text(fullPlan[widget.index]),
-                    Text(twoTimeMeal[widget.index]),
-                    Text(lunchOnly[widget.index]),
-                  ],
-                  
-                ),
+      appBar: AppBar(
+        title: Text(widget.data['messname']),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Image.network(
+                    widget.data['mainimage'],
+                    height: 300,
+                    fit: BoxFit.fill,
+                  ),
+                ],
               ),
-            );
-            
-          },
-        );
-        }
-          },
-        )),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'About',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              const Text(
+                'Description about the mess in detail to understand customer. Description about the mess in detail to understand ',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Menuviewer(
+                            index: widget.index,
+                            data: widget.data,
+                          ),
+                        ),
+                      );
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                    ),
+                    child: const Text(
+                      '                 CLICK HERE FOR MENU                 ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: white,
+                      ),
+                    ),
+                  ),
+                  
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text('Price Details',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Table(
+          border: TableBorder.all(color: Colors.black),
+          children:  [
+            const TableRow(
+              children: [
+                TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(' ', style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('VEG', style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('NON VEG', style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
+            ),
+            TableRow(
+              children: [
+                const TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Full Plan'), 
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data['fullplan']),
+                  ),
+                ),
+                 TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data['fullplan']),
+                  ),
+                ),
+              ],
+            ),
+             TableRow(
+              children: [
+                const TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Lunch Only'),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data['lunchonly']),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data['lunchonly']),
+                  ),
+                ),
+              ],
+            ),
+             TableRow(
+              children: [
+                const TableCell(
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Two Times'),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data['twotimemeal']),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.data['twotimemeal']),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      
+            ],
+          ),
+        )
+          ],
+        ),
+      ),     
+      
     );
   }
-  
 }

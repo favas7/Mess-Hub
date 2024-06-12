@@ -3,9 +3,9 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/presentation/admin/adminProfile.dart';
-import 'package:messhub/presentation/admin/adminHome.dart';
-import 'package:messhub/presentation/admin/customerList.dart';
+import 'package:messhub/presentation/admin/adminProfile/adminProfile.dart';
+import 'package:messhub/presentation/admin/adminHome/adminHome.dart';
+import 'package:messhub/presentation/admin/customerList/customerList.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);

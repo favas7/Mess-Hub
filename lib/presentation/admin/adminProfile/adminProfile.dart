@@ -2,9 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/popAlert.dart';
-import 'package:messhub/presentation/admin/adminProfileEdit.dart';
 
 class adminProfile extends StatelessWidget {
   const adminProfile({super.key});
@@ -89,12 +87,7 @@ class adminProfile extends StatelessWidget {
                             ),
                             CircleAvatar(
                               radius: 50,
-                              child: IconButton(onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminProfileEdit()));
-                            }, icon: Icon(Icons.add_rounded,
-                              color: textFieldColor,
-                              size: 50,
-                              )),
+                              
                             ) ,
                             SizedBox(
                               height: 80,

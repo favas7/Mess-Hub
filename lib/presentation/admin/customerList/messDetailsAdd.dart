@@ -9,14 +9,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/textfield.dart';
 
-class AdminProfileEdit extends StatefulWidget {
-  const AdminProfileEdit({Key? key});
+class MessDetailsAdd extends StatefulWidget {
+  const MessDetailsAdd({Key? key});
 
   @override
-  State<AdminProfileEdit> createState() => _AdminProfileEditState();
+  State<MessDetailsAdd> createState() => _MessDetailsAddState();
 }
 
-class _AdminProfileEditState extends State<AdminProfileEdit> {
+class _MessDetailsAddState extends State<MessDetailsAdd> {
  
  
   List<XFile>? images;

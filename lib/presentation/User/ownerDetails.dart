@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/presentation/admin/menuViewer.dart';
+import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 
 class OwnerDetails extends StatefulWidget {
   final Map<String, dynamic> data;

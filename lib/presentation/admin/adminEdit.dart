@@ -129,7 +129,7 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['fullplan']),
+                    child: Text(widget.data['fullplanveg']),
                   ),
                 ),
                  TableCell(
@@ -151,7 +151,7 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['lunchonly']),
+                    child: Text(widget.data['lunchonlyveg']),
                   ),
                 ),
                 TableCell(
@@ -173,12 +173,12 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['twotimemeal']),
+                    child: Text(widget.data['twotimemealveg']),
                   ),
                 ),
                 TableCell(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0), 
                     child: Text(widget.data['twotimemeal']),
                   ),
                 ),

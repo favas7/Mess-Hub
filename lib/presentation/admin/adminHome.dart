@@ -44,6 +44,9 @@ class _AdminHomeState extends State<AdminHome> {
                   'mainimage': detail['mainImage'],
                   'vegimage': detail['vegImage'],
                   'nonvegimage': detail['nonVegImage'],
+                  'fullplanveg': detail['FullPlanVeg'],
+                  'twotimemealveg': detail['TwoTimeMealVeg'],
+                  'lunchonlyveg': detail['LunchOnlyVeg'],
                 };
                 return Padding(
                   padding: const EdgeInsets.all(24.0),

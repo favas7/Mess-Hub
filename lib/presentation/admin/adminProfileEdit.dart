@@ -30,6 +30,9 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
   final TextEditingController _fullplan = TextEditingController();
   final TextEditingController _twotime = TextEditingController();
   final TextEditingController _lunch = TextEditingController();
+   final TextEditingController _fullplanveg = TextEditingController();
+  final TextEditingController _twotimeveg = TextEditingController();
+  final TextEditingController _lunchveg = TextEditingController();
 
   void _clearForm(){
     _messname.clear();
@@ -39,7 +42,10 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
     _fullplan.clear();
     _twotime.clear();
     _lunch.clear();
-    
+    _fullplanveg.clear();
+    _twotimeveg.clear();
+    _lunchveg.clear();
+
   } 
 
   
@@ -360,19 +366,15 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                         ),
                       ],
                     ),
-                    const Row(
-                      children: [
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          'Price(/Month)',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      'NON VEG Price(/Month)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(28.0),
@@ -402,11 +404,52 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
                                 controller: _lunch,
                                 textInputType: TextInputType.numberWithOptions()
                               ),
+                              
                             ],
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    Text(
+                      'VEG Price(/Month)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 2.5,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: white,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              customTextField(
+                                labelText: 'Full Plan',
+                                controller: _fullplanveg,
+                                textInputType: TextInputType.numberWithOptions()
+                              ),
+                              customTextField(
+                                labelText: 'Breakfast And Dinner',
+                                controller: _twotimeveg,
+                                textInputType: TextInputType.numberWithOptions()
+                              ),
+                              customTextField(
+                                labelText: 'Lunch Only',
+                                controller: _lunchveg,
+                                textInputType: TextInputType.numberWithOptions()
+                              ),
+                            ],
+                          ),
+                        )
+                        )
+                        )
                   ],
                 ),
               )
@@ -423,6 +466,9 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
     "FullPlan" : _fullplan.text,
     "TwoTimeMeal" : _twotime.text,
     "LunchOnly" : _lunch.text,
+    "FullPlanVeg" : _fullplanveg.text,
+    "TwoTimeMealVeg" : _twotimeveg.text,
+    "LunchOnlyVeg" : _lunchveg.text,
     "mainImage" : mainImage ,
     "vegImage" : vegImage ,
     "nonVegImage" : nonvegImage,
@@ -440,7 +486,10 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
           messData["Address"].isNotEmpty&& 
           messData["FullPlan"].isNotEmpty && 
           messData["TwoTimeMeal"].isNotEmpty && 
-          messData["LunchOnly"].isNotEmpty){
+          messData["LunchOnly"].isNotEmpty&&
+          messData["FullPlanVeg"].isNotEmpty && 
+          messData["TwoTimeMealVeg"].isNotEmpty && 
+          messData["LunchOnlyVeg"].isNotEmpty){
             addMessDetails(messData);
             showSuccessMessage(context, "Data added successfully!", duration: 2);
             setState(() {

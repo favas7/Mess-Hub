@@ -1,7 +1,7 @@
 // ignore_for_file: camel_case_types, library_private_types_in_public_api, use_build_context_synchronously, avoid_print, file_names
 
 import 'package:flutter/material.dart';
-import 'package:messhub/widgets/bottomNavAdmin.dart';
+import 'package:messhub/color/widgets/bottomNavAdmin.dart';
 
 class adminSplash extends StatefulWidget {
   const adminSplash({Key? key}) : super(key: key);

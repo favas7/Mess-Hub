@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:messhub/presentation/intro/introSlide.dart';
 import 'package:messhub/functions/pageIndicator.dart';
-import 'package:messhub/widgets/bottomNavUser.dart';
+import 'package:messhub/color/widgets/bottomNavUser.dart';
 
 class IntroScreen1 extends StatefulWidget {
   const IntroScreen1({Key? key}) : super(key: key);

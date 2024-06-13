@@ -8,7 +8,7 @@ import 'package:messhub/presentation/logIn/forgotPass.dart';
 import 'package:messhub/presentation/welcomeScreen/welcomeScreen.dart';
 import 'package:messhub/presentation/signUp/signup.dart';
 import 'package:messhub/presentation/splash/adminSplash.dart';
-import 'package:messhub/widgets/bottomNavUser.dart';
+import 'package:messhub/color/widgets/bottomNavUser.dart';
 
 class Login extends StatefulWidget {
  const Login({Key? key}) : super(key: key);

@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types, file_names
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:messhub/functions/popAlert.dart';
+import 'package:messhub/color/color.dart';
 
 class adminProfile extends StatelessWidget {
   const adminProfile({super.key});
@@ -19,89 +18,41 @@ class adminProfile extends StatelessWidget {
           child: Image.asset('assets/adminProfile/profileBg.png',
           fit: BoxFit.cover,),
         ),
-        StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
-          // initialData: initialData,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if(snapshot.connectionState==ConnectionState.waiting){
-              return const CircularProgressIndicator();
-            }
-            else if(!snapshot.hasData ){
+        Positioned(
+          top: 50, left: 165,
+          child: CircleAvatar(
+            radius: 50,
+            child: Image.asset('name'),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(14.0), 
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               
-              return const Center(child: Text('No Data Found'),);
-              
-            }
-            else{
-            List<QueryDocumentSnapshot>messDetails = snapshot.data?.docs;
-            
-            List<String>mainImage=[];
-            List<String>messName1=[];
-            List<String>ownerName=[];
-            List<String>contact=[];
-            List<String>address=[];
-            
-            for(var detail in messDetails){
-              messName1.add(detail['MessName']);
-              mainImage.add(detail['mainImage']);
-              ownerName.add(detail['OwnerName']);
-              contact.add(detail['Contact']);
-              address.add(detail['Address']);
-              }
-
-           
-            return ListView.builder(
-                      itemCount: 1, 
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                          //   CircleAvatar(
-                          //   radius: 50,
-                          //   backgroundImage: NetworkImage(mainImage[index]),
-                          //   )
-                          // ,
-                          //   Text(messName1[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                            TextButton(onPressed: (){}, child: Text('Edit profile')),
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 1,
-                                  )
-                                ),
-                              ),
-                            ),SizedBox(
-                              height: 100,
-                            ),
-                            Text('ADD NEW MESS',style: TextStyle(
-                              fontSize: 20,
-                            ),),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CircleAvatar(
-                              radius: 50,
-                              
-                            ) ,
-                            SizedBox(
-                              height: 80,
-                            ),
-                            IconButton(onPressed: (){
-            showAlertDialog(context,"",Duration.zero);
-          }, icon: const Icon(Icons.logout_rounded),)
-                ],
-                        );
-                        
-                      },
-                    );
-        }
-          },
+              SizedBox(
+                height: 250,
+              ),
+              Text('Name',style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18
+              ),),
+              SizedBox(
+                height: 10,
+              ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            color: adminBg,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10,left: 20),
+              child: Text('NAME OF ADMIN'),
+            ),
+          )
+            ],
+          ),
         )
         ]
       )

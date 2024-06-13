@@ -3,7 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/hive/favmodel.dart';
 import 'package:messhub/presentation/admin/adminHome/adminEdit.dart';
 
 class AdminHome extends StatefulWidget {
@@ -14,6 +16,29 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
+  // Keeping track of the favorite status
+  final Map<String, bool> _favorites = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavorites();
+  }
+
+  void _loadFavorites() async {
+    final box = Hive.box<String>('favorites');
+    final keys = box.keys;
+    final favStatus = <String, bool>{};
+
+    for (var key in keys) {
+      favStatus[key] = true;
+    }
+
+    setState(() {
+      _favorites.addAll(favStatus);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,20 +59,21 @@ class _AdminHomeState extends State<AdminHome> {
               itemBuilder: (BuildContext context, int index) {
                 var detail = messDetails[index];
                 var details = {
-                  'messname': detail['MessName'],
-                  'owner': detail['OwnerName'],
-                  'contact': detail['Contact'],
-                  'address': detail['Address'],
-                  'fullplan': detail['FullPlan'],
-                  'twotimemeal': detail['TwoTimeMeal'],
-                  'lunchonly': detail['LunchOnly'],
-                  'mainimage': detail['mainImage'],
-                  'vegimage': detail['vegImage'],
-                  'nonvegimage': detail['nonVegImage'],
-                  'fullplanveg': detail['FullPlanVeg'],
-                  'twotimemealveg': detail['TwoTimeMealVeg'],
-                  'lunchonlyveg': detail['LunchOnlyVeg'],
+                  'messname': detail.get('MessName') ?? '',
+                  'owner': detail.get('OwnerName') ?? '',
+                  'contact': detail.get('Contact') ?? '',
+                  'address': detail.get('Address') ?? '',
+                  'fullplan': detail.get('FullPlan') ?? '',
+                  'twotimemeal': detail.get('TwoTimeMeal') ?? '',
+                  'lunchonly': detail.get('LunchOnly') ?? '',
+                  'mainimage': detail.get('mainImage') ?? '',
+                  'vegimage': detail.get('vegImage') ?? '',
+                  'nonvegimage': detail.get('nonVegImage') ?? '',
+                  'fullplanveg': detail.get('FullPlanVeg') ?? '',
+                  'twotimemealveg': detail.get('TwoTimeMealVeg') ?? '',
+                  'lunchonlyveg': detail.get('LunchOnlyVeg') ?? '',
                 };
+
                 return Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: GestureDetector(
@@ -79,16 +105,12 @@ class _AdminHomeState extends State<AdminHome> {
                       width: double.infinity,
                       child: Stack(
                         children: [
-                          Image.network(
-                            detail['mainImage'],
-                            height: MediaQuery.of(context).size.height/3.2,
-                            fit: BoxFit.fill,
-                          ),
+                          _buildImage(detail.get('mainImage') ?? ''),
                           Positioned(
                             bottom: 100,
                             left: 16,
                             child: Text(
-                              detail['MessName'],
+                              detail.get('MessName') ?? '',
                               style: GoogleFonts.oswald(
                                 textStyle: const TextStyle(
                                   fontSize: 30,
@@ -102,32 +124,53 @@ class _AdminHomeState extends State<AdminHome> {
                             left: 0,
                             child: Row(
                               children: [
-                                IconButton(onPressed: () {}, icon: const Icon(Icons.location_on)),
-                                Text(details['address'],style: const TextStyle(
-                                  fontWeight: FontWeight.bold
-                                ),),
-                                const SizedBox(width: 20,),
-                                IconButton(onPressed: (){}, icon: const Icon(Icons.star,color: Colors.yellow,)),
+                                IconButton(
+                                  onPressed: () {}, 
+                                  icon: const Icon(Icons.location_on),
+                                ),
+                                Text(
+                                  details['address'] ?? '',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.star, color: Colors.yellow),
+                                ),
                                 const Text('3.4'),
-
                               ],
                             ),
                           ),
                           const Positioned(
-                            bottom: 10,left: 20,
-                            child: Text(' Description about the mess in detail to understand \n customer.Description about the mess in detail to \n understand ')),
+                            bottom: 10,
+                            left: 20,
+                            child: Text(
+                              'Description about the mess in detail to understand \n customer.Description about the mess in detail to \n understand',
+                            ),
+                          ),
                           Positioned(
                             right: 10,
                             bottom: 95,
                             child: IconButton(
-                              onPressed: () {}, 
-                              icon: const Icon(Icons.favorite, size: 30,color: black,
+                              onPressed: () async {
+                                if (_favorites[detail.id] == true) {
+                                  await deletefav(id: details['messname']);
+                                } else {
+                                  await addfav(mess:details['messname'] , id: details['messname']);
+                                }
+                                setState(() {
+                                  _favorites[detail.id] = !(_favorites[detail.id] ?? false);
+                                });
+                              },
+                              icon: Icon(
+                                Icons.favorite,
+                                size: 30,
+                                color: _favorites[detail.id] == true ? mainColor : black,
                               ),
                             ),
                           ),
-
-                        
-
                         ],
                       ),
                     ),
@@ -138,6 +181,27 @@ class _AdminHomeState extends State<AdminHome> {
           }
         },
       ),
+    );
+  }
+
+  Widget _buildImage(String imageUrl) {
+    return Image.network(
+      imageUrl,
+      height: MediaQuery.of(context).size.height / 3.2,
+      fit: BoxFit.fill,
+      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                : null,
+          ),
+        );
+      },
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+        return const Center(child: Icon(Icons.error));
+      },
     );
   }
 }

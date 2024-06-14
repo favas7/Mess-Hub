@@ -43,7 +43,7 @@ class _BottomNavState extends State<BottomNav> {
         children: const [
           AdminHome(),
           CustomerList(),
-         AdminProfile (),
+          AdminProfile(),
         ],
       ),
       bottomNavigationBar: ConvexAppBar(

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/widgets/bottomNavAdmin.dart';
-
 class adminSplash extends StatefulWidget {
   const adminSplash({Key? key}) : super(key: key);
 

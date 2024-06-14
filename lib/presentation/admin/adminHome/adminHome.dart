@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/hive/favmodel.dart';
-import 'package:messhub/presentation/admin/adminHome/adminEdit.dart';
+import 'package:messhub/presentation/admin/adminHome/adminDetails.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});

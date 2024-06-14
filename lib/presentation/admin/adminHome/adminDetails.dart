@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/presentation/admin/adminHome/detailsEdit.dart';
 import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 
 class AdminDetailsEdit extends StatefulWidget {
@@ -19,7 +20,20 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.data['messname']),
+        title: Row(
+          children: [
+            Text(widget.data['messname']),const Spacer(),
+            const Text('Edit'),
+            IconButton(onPressed: (){
+              
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Detailsedit()),
+                    );
+            }, icon: const Icon(Icons.edit))
+          ],
+        ),
+        
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -23,7 +23,8 @@ class AdminProfile extends StatelessWidget {
           top: 50, left: 165,
           child: CircleAvatar(
             radius: 50,
-            child: Image.asset(''),
+            child: Image.asset('')
+            ,
           ),
         ),
         Padding(

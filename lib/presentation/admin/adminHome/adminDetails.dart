@@ -8,8 +8,9 @@ import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 class AdminDetailsEdit extends StatefulWidget {
   final Map<String, dynamic> data;
   final int index;
+  final String id;
 
-  const AdminDetailsEdit({Key? key, required this.index, required this.data}) : super(key: key);
+  const AdminDetailsEdit({Key? key, required this.index, required this.data, required this.id}) : super(key: key);
 
   @override
   State<AdminDetailsEdit> createState() => _AdminDetailsEditState();
@@ -24,12 +25,15 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
           children: [
             Text(widget.data['messname']),const Spacer(),
             const Text('Edit'),
-            IconButton(onPressed: (){
-              
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Detailsedit()),
-                    );
+            IconButton(onPressed: (){Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Detailsedit(
+                            index: widget.index,
+                            data: widget.data, id: widget.id,
+                          ),
+                        ),
+                      );
             }, icon: const Icon(Icons.edit))
           ],
         ),

@@ -58,6 +58,7 @@ class _AdminHomeState extends State<AdminHome> {
               itemCount: messDetails.length,
               itemBuilder: (BuildContext context, int index) {
                 var detail = messDetails[index];
+                var id = detail.id;
                 var details = {
                   'messname': detail.get('MessName') ?? '',
                   'owner': detail.get('OwnerName') ?? '',
@@ -83,7 +84,7 @@ class _AdminHomeState extends State<AdminHome> {
                         MaterialPageRoute(
                           builder: (context) => AdminDetailsEdit(
                             index: index,
-                            data: details,
+                            data: details, id: id,
                           ),
                         ),
                       );

@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/firebase/dataupdate.dart';
+import 'package:messhub/functions/alert_box.dart';
 import 'package:messhub/functions/details_edit_textfield.dart';
 
 class Detailsedit extends StatefulWidget {
@@ -108,9 +109,15 @@ class _DetailseditState extends State<Detailsedit> {
             const Text('Edit Details'),
             const Spacer(),
             IconButton(onPressed: (){
-                            deleteDocument(widget.id);
-
-            }, icon: const Icon(Icons.delete))
+              showDeleteAlertDialog(
+                context,
+                "Delete Confirmation",
+                "Are you sure you want to delete this Mess?",
+                () {
+                  deleteDocument(widget.id);
+                  print("Item deleted");
+                },
+              );}, icon: const Icon(Icons.delete))
           ],
         )
       ),

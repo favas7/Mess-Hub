@@ -139,6 +139,7 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, 
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.only(left: 80), 

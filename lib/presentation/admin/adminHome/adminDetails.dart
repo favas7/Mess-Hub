@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/presentation/admin/adminHome/detailsEdit.dart';
 import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 
@@ -21,21 +22,33 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text(widget.data['messname']),const Spacer(),
-            const Text('Edit'),
-            IconButton(onPressed: (){Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Detailsedit(
-                            index: widget.index,
-                            data: widget.data, id: widget.id,
+        title: GestureDetector(
+          onTap: () {Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Detailsedit(
+                                index: widget.index,
+                                data: widget.data, id: widget.id,
+                              ),
+                            ),
+                          );
+                },
+          child: Row(
+            children: [
+              Text(widget.data['messname']),const Spacer(),
+              const Text('Edit'),
+              IconButton(onPressed: (){Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Detailsedit(
+                              index: widget.index,
+                              data: widget.data, id: widget.id,
+                            ),
                           ),
-                        ),
-                      );
-            }, icon: const Icon(Icons.edit))
-          ],
+                        );
+              }, icon: const Icon(Icons.edit))
+            ],
+          ),
         ),
         
       ),
@@ -204,6 +217,14 @@ class _AdminDetailsEditState extends State<AdminDetailsEdit> {
             ),
           ],
         ),
+        const SizedBox(
+          height: 30,
+        ),
+        createTextBox('Mess Owner Name', widget.data['owner']),
+        const SizedBox(
+          height: 30,
+        ), 
+        createTextBox('Contact', widget.data['contact']),
       
             ],
           ),

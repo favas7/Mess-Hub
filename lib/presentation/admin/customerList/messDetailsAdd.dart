@@ -155,304 +155,312 @@ void showSuccessMessage(BuildContext context, String message, {int duration = 2}
           FocusScope.of(context).unfocus();
         },
         child: SafeArea(
-          child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    
-                    const SizedBox(height: 20),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(28.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(28.0), 
-                          child: GestureDetector(
-                            onTap: () {
-                              mainImagepicker();
-                            },
-                            child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
-                          ),
-                        ),
-                        Positioned(
-                          left: 55,
-                          top: 150,
-                          child: InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              'PLEASE TAP TO UPLOAD MESS PROFILE',
-                              style: TextStyle(
-                                color: mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/Login/ForgotPass.png'),
+                fit: BoxFit.cover)),
+            child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      
+                      const SizedBox(height: 20),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 3,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                           ),
-                        ),
-                        // Positioned(left: 180,top: 310,
-                        //   child: TextButton(onPressed: (){}, child: Text("EDIT",style: TextStyle(
-                        //     color: mainColor
-                        //   ),))),
-                        Padding(
-                          padding: EdgeInsets.all(28),
-                          child: mainImage.isNotEmpty
-                              ? SizedBox(
-                                  width: double.infinity,
-                                  height: 290,
-                                  child: Image.network(mainImage,
-                                  fit: BoxFit.cover)
-                                  
-              
-                                )
-                              : const SizedBox(),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(28.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 1.7,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(15),
+                          Padding(
+                            padding: const EdgeInsets.all(28.0), 
+                            child: GestureDetector(
+                              onTap: () {
+                                mainImagepicker();
+                              },
+                              child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(14),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  customTextField(
-                                    labelText: 'Name of mess owner',
-                                    controller: _ownername,
+                          ),
+                          Positioned(
+                            left: 55,
+                            top: 150,
+                            child: InkWell(
+                              onTap: () {},
+                              child: const Text(
+                                'PLEASE TAP TO UPLOAD MESS PROFILE',
+                                style: TextStyle(
+                                  color: mainColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Positioned(left: 180,top: 310,
+                          //   child: TextButton(onPressed: (){}, child: Text("EDIT",style: TextStyle(
+                          //     color: mainColor
+                          //   ),))),
+                          Padding(
+                            padding: EdgeInsets.all(28),
+                            child: mainImage.isNotEmpty
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    height: 290,
+                                    child: Image.network(mainImage,
+                                    fit: BoxFit.cover)
                                     
-                                  ),
-                                  const SizedBox(height: 20),
-                                  customTextField(
-                                    labelText: 'Name of mess',
-                                    controller: _messname,
-                                  ),
-                                  const SizedBox(height: 20),
-                                  customTextField(
-                                    textInputType: TextInputType.numberWithOptions(),
-                                    labelText: 'Contact',
-                                    controller: _contact,
-                                  ),
-                                  const SizedBox(height: 20),
-                                  customTextField(
-                                    labelText: 'Place',
-                                    controller: _adress,
-                                  ),
-                                ],
-                              ),
-                            ),
+                
+                                  )
+                                : const SizedBox(),
                           ),
-                        ),
-                      ],
-                    ),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(28.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(28.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              vegImagepicker();
-                            },
-                            child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
-                          ),
-                        ),
-                        Positioned(
-                          left: 80,
-                          top: 230,
-                          child: InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              'PLEASE TAP TO UPLOAD VEG MENU',
-                              style: TextStyle(
-                                color: mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(28),
-                          child: vegImage.isNotEmpty 
-                              ? SizedBox(
-                                  width: double.infinity,
-                                  height: 290,
-                                  child: Image.network(
-                                    vegImage,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : const SizedBox(),
-                        ),
-                      ],
-                    ),
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(28.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 3,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(28.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              nonvegImagepicker();
-                            },
-                            child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
-                          ),
-                        ),
-                        Positioned(
-                          left: 80,
-                          top: 230,
-                          child: InkWell(
-                            onTap: () {},
-                            child: const Text(
-                              'PLEASE TAP TO UPLOAD VEG MENU',
-                              style: TextStyle(
-                                color: mainColor,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(28),
-                          child: nonvegImage.isNotEmpty
-                              ? SizedBox(
-                                  width: double.infinity,
-                                  height: 290,
-                                  child: Image.network(
-                                    nonvegImage,
-                                    fit: BoxFit.cover, 
-                                  ),
-                                )
-                              : const SizedBox(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Text(
-                      'NON VEG Price(/Month)',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 2.5,
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            children: [
-                              customTextField(
-                                labelText: 'Full Plan',
-                                controller: _fullplan,
-                                textInputType: TextInputType.numberWithOptions()
+                      const SizedBox(height: 20),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 1.7,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              customTextField(
-                                labelText: 'Breakfast And Dinner',
-                                controller: _twotime,
-                                textInputType: TextInputType.numberWithOptions()
+                              child: Padding(
+                                padding: const EdgeInsets.all(14),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    customTextField(
+                                      labelText: 'Name of mess owner',
+                                      controller: _ownername,
+                                      
+                                    ),
+                                    const SizedBox(height: 20),
+                                    customTextField(
+                                      labelText: 'Name of mess',
+                                      controller: _messname,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    customTextField(
+                                      textInputType: TextInputType.numberWithOptions(),
+                                      labelText: 'Contact',
+                                      controller: _contact,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    customTextField(
+                                      labelText: 'Place',
+                                      controller: _adress,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              customTextField(
-                                labelText: 'Lunch Only',
-                                controller: _lunch,
-                                textInputType: TextInputType.numberWithOptions()
-                              ),
-                              
-                            ],
+                            ),
                           ),
+                        ],
+                      ),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 3,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                vegImagepicker();
+                              },
+                              child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
+                            ),
+                          ),
+                          Positioned(
+                            left: 80,
+                            top: 230,
+                            child: InkWell(
+                              onTap: () {},
+                              child: const Text(
+                                'PLEASE TAP TO UPLOAD VEG MENU',
+                                style: TextStyle(
+                                  color: mainColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(28),
+                            child: vegImage.isNotEmpty 
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    height: 290,
+                                    child: Image.network(
+                                      vegImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ],
+                      ),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 3,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(28.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                nonvegImagepicker();
+                              },
+                              child: Image.asset("assets/PlaceHolder/Placeholder_view_vector.svg.png"),
+                            ),
+                          ),
+                          Positioned(
+                            left: 80,
+                            top: 230,
+                            child: InkWell(
+                              onTap: () {},
+                              child: const Text(
+                                'PLEASE TAP TO UPLOAD VEG MENU',
+                                style: TextStyle(
+                                  color: mainColor,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(28),
+                            child: nonvegImage.isNotEmpty
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    height: 290,
+                                    child: Image.network(
+                                      nonvegImage,
+                                      fit: BoxFit.cover, 
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        'NON VEG Price(/Month)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
                         ),
                       ),
-                    ),
-                    Text(
-                      'VEG Price(/Month)',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 2.5,
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: white,
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            children: [
-                              customTextField(
-                                labelText: 'Full Plan',
-                                controller: _fullplanveg,
-                                textInputType: TextInputType.numberWithOptions()
-                              ),
-                              customTextField(
-                                labelText: 'Breakfast And Dinner',
-                                controller: _twotimeveg,
-                                textInputType: TextInputType.numberWithOptions()
-                              ),
-                              customTextField(
-                                labelText: 'Lunch Only',
-                                controller: _lunchveg,
-                                textInputType: TextInputType.numberWithOptions()
-                              ),
-                            ],
+                      Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 2.5,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
-                        )
-                        )
-                        )
-                  ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              children: [
+                                customTextField(
+                                  labelText: 'Full Plan',
+                                  controller: _fullplan,
+                                  textInputType: TextInputType.numberWithOptions()
+                                ),
+                                customTextField(
+                                  labelText: 'Breakfast And Dinner',
+                                  controller: _twotime,
+                                  textInputType: TextInputType.numberWithOptions()
+                                ),
+                                customTextField(
+                                  labelText: 'Lunch Only',
+                                  controller: _lunch,
+                                  textInputType: TextInputType.numberWithOptions()
+                                ),
+                                
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'VEG Price(/Month)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 2.5,
+                          width: double.infinity,
+                          decoration: const BoxDecoration(
+                            color: white,
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              children: [
+                                customTextField(
+                                  labelText: 'Full Plan',
+                                  controller: _fullplanveg,
+                                  textInputType: TextInputType.numberWithOptions()
+                                ),
+                                customTextField(
+                                  labelText: 'Breakfast And Dinner',
+                                  controller: _twotimeveg,
+                                  textInputType: TextInputType.numberWithOptions()
+                                ),
+                                customTextField(
+                                  labelText: 'Lunch Only',
+                                  controller: _lunchveg,
+                                  textInputType: TextInputType.numberWithOptions()
+                                ),
+                              ],
+                            ),
+                          )
+                          )
+                          )
+                    ],
+                  ),
                 ),
-              )
+          )
         ),
       ),
       

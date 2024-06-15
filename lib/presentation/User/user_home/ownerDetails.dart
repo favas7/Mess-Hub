@@ -8,7 +8,7 @@ class OwnerDetails extends StatefulWidget {
   final Map<String, dynamic> data;
   final int index;
 
-  const OwnerDetails({Key? key, required this.index, required this.data}) : super(key: key);
+  const OwnerDetails({Key? key, required this.index, required this.data, required String id}) : super(key: key);
 
   @override
   State<OwnerDetails> createState() => _OwnerDetailsState();

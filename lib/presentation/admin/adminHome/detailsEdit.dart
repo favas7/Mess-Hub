@@ -171,7 +171,13 @@ class _DetailseditState extends State<Detailsedit> {
                           onPressed: () {
                             _pickMainImage(context);
                           },
+                          style:ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                          ) ,
                           child: const Text('Pick Main Image'),
+                        ),
+                        const SizedBox(
+                          height: 30,
                         ),
                         heading(heading: 'Non-Veg Image'),
                         const SizedBox(height: 30),

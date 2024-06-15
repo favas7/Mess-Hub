@@ -1,14 +1,16 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types, file_names
-
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/popAlert.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 
-class AdminProfile extends StatelessWidget {
-  const AdminProfile({super.key});
-  
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,12 +23,13 @@ class AdminProfile extends StatelessWidget {
           child: Image.asset('assets/adminProfile/profileBg.png',
           fit: BoxFit.cover,),
         ),
-        Positioned(
+        const Positioned(
           top: 50, left: 165,
           child: CircleAvatar(
             radius: 50,
-            backgroundImage: AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png')
-             ),
+            
+            
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(14.0), 
@@ -35,15 +38,15 @@ class AdminProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 250),
-              createTextBox('NAME', 'NAME OF ADMIN'),
+              createTextBox('NAME', 'NAME OF USER'),
               const SizedBox(
                 height: 30,
               ),
-              createTextBox('EMAIL', 'EMAIL OF ADMIN'),
+              createTextBox('EMAIL', 'EMAIL OF USER'),
             const SizedBox(
                 height: 30, 
               ),
-              createTextBox('PHONE NUMBER', 'PHONE NUMBER OF ADMIN'),
+              createTextBox('PHONE NUMBER', 'PHONE NUMBER OF USER'),
               const Spacer(),
               Center(
                 child: TextButton(onPressed: (){
@@ -65,7 +68,3 @@ class AdminProfile extends StatelessWidget {
     );
   }
 }
-
-
-
-

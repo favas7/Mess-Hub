@@ -6,18 +6,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/hive/favmodel.dart';
-import 'package:messhub/presentation/admin/adminHome/adminDetails.dart';
-import 'package:messhub/presentation/admin/customerList/messDetailsAdd.dart';
+import 'package:messhub/presentation/User/user_home/ownerDetails.dart';
 
-class AdminHome extends StatefulWidget {
-  const AdminHome({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<AdminHome> createState() => _AdminHomeState();
+  State<Home> createState() => _HomeState();
 }
 
-class _AdminHomeState extends State<AdminHome> {
-  // Keeping track of the favorite status
+class _HomeState extends State<Home> {
+  // Keeping track of the favorite status 
   final Map<String, bool> _favorites = {};
 
   @override
@@ -27,10 +26,7 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   void _loadFavorites() async {
-    // Ensure the box is opened and awaited
-    await Hive.openBox('favorites');
-    final box = Hive.box('favorites');
-
+    final box = Hive.box<String>('favorites');
     final keys = box.keys;
     final favStatus = <String, bool>{};
 
@@ -46,20 +42,6 @@ class _AdminHomeState extends State<AdminHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const Spacer(),
-            IconButton(onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>const MessDetailsAdd()));
-                            }, icon: const Icon(Icons.add),
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(mainColor),
-              iconSize: WidgetStateProperty.all(40)
-            ),)
-          ],
-        ),
-      ), 
       backgroundColor: adminBg,
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
@@ -100,10 +82,9 @@ class _AdminHomeState extends State<AdminHome> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AdminDetailsEdit(
+                          builder: (context) => OwnerDetails(
                             index: index,
-                            data: details,
-                            id: id,
+                            data: details, id: id,
                           ),
                         ),
                       );
@@ -145,7 +126,7 @@ class _AdminHomeState extends State<AdminHome> {
                             child: Row(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {}, 
                                   icon: const Icon(Icons.location_on),
                                 ),
                                 Text(
@@ -178,7 +159,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 if (_favorites[detail.id] == true) {
                                   await deletefav(id: details['messname']);
                                 } else {
-                                  await addfav(mess: details['messname'], id: details['messname']);
+                                  await addfav(mess:details['messname'] , id: details['messname']);
                                 }
                                 setState(() {
                                   _favorites[detail.id] = !(_favorites[detail.id] ?? false);

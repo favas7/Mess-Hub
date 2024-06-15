@@ -3,9 +3,9 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/presentation/User/home.dart';
-import 'package:messhub/presentation/User/profile.dart';
-import 'package:messhub/presentation/User/userData.dart';
+import 'package:messhub/presentation/User/user_home/home.dart';
+import 'package:messhub/presentation/User/user_profile/profile.dart';
+import 'package:messhub/presentation/User/user_data/userData.dart';
 
 class BottomNavUser extends StatefulWidget {
   const BottomNavUser({Key? key}) : super(key: key);
@@ -41,7 +41,7 @@ class _BottomNavUserState extends State<BottomNavUser> {
           });
         },
         children: const [
-          home(),
+          Home(),
           UserData(),
           Profile(),
         ],

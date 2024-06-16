@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 
 class OwnerDetails extends StatefulWidget {
@@ -186,6 +187,14 @@ class _OwnerDetailsState extends State<OwnerDetails> {
             ),
           ],
         ),
+        const SizedBox(
+          height: 30,
+        ),
+        createTextBox('Mess Owner Name', widget.data['owner']),
+        const SizedBox(
+          height: 30,
+        ),  
+        createTextBox('Contact', widget.data['contact']),
       
             ],
           ),

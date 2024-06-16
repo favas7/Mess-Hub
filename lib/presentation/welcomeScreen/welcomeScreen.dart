@@ -47,7 +47,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.only(right: 140),
-              child: Text('Your favourite foods delivered \n fast at your door.'),
+              child: Text('Your favourite foods delivered \nfast at your door.'),
             ),
             const SizedBox(
               height: 300, 

@@ -20,7 +20,24 @@ class _OwnerDetailsState extends State<OwnerDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.data['messname']),
+        title: Row(
+          children: [
+            Text(widget.data['messname']),
+            const Spacer(),
+            TextButton(onPressed: (){},
+            style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                    ),
+                    child: const Text(
+                      'Subscribe', 
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: white,
+                      ),
+                    ))
+          ]
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

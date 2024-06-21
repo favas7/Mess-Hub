@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/popAlert.dart';
 import 'package:messhub/functions/profileTextBox.dart';
+import 'package:messhub/presentation/User/user_profile/user_profile_edit.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -24,13 +25,22 @@ class _ProfileState extends State<Profile> {
           fit: BoxFit.cover,),
         ),
         const Positioned(
-          top: 50, left: 165,
+          top: 73, left: 165,
           child: CircleAvatar(
             radius: 50,
-            
-            
-          ),
+            backgroundImage: AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png')
+            ),
         ),
+        Positioned(
+          top: 170, left: 170,
+          child: TextButton(onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const UserProfileEdit()),
+                      );
+                    }, child: const Text('Edit Profile'))),
+
+        
         Padding(
           padding: const EdgeInsets.all(14.0), 
           child: Column(
@@ -51,7 +61,7 @@ class _ProfileState extends State<Profile> {
               Center(
                 child: TextButton(onPressed: (){
                   
-                            showAlertDialog(context,"",Duration.zero); 
+                showAlertDialog(context,"",Duration.zero); 
                 },
                 style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(mainColor),

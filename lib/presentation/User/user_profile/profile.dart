@@ -24,9 +24,10 @@ class _ProfileState extends State<Profile> {
           child: Image.asset('assets/adminProfile/profileBg.png',
           fit: BoxFit.cover,),
         ),
-        const Positioned(
-          top: 73, left: 165,
-          child: CircleAvatar(
+        Positioned(
+          bottom: MediaQuery.of(context).size.height/1.29,
+          left: MediaQuery.of(context).size.width/2.5, 
+          child: const CircleAvatar(
             radius: 50,
             backgroundImage: AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png')
             ),

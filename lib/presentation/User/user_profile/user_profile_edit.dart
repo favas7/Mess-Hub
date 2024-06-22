@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/details_edit_textfield.dart';
-import 'package:messhub/presentation/User/user_profile/profile.dart';
 
 class UserProfileEdit extends StatefulWidget {
   const UserProfileEdit({super.key});
@@ -19,6 +18,9 @@ class _UserProfileEditState extends State<UserProfileEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Edit Profile"),
+      ),
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
@@ -26,30 +28,17 @@ class _UserProfileEditState extends State<UserProfileEdit> {
           },
         child: Stack(
           children: [
-            SizedBox(
-            height: MediaQuery.of(context).size.height, 
-            width: MediaQuery.of(context).size.width,
-            child: Image.asset('assets/adminProfile/profileBg.png',
-            fit: BoxFit.cover,),
-          ),
-          Padding(
-                  padding: const EdgeInsets.only(top: 60,left: 20),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile()),);
-                    }, 
-                    icon: const Icon(Icons.arrow_back_ios, color: Color.fromRGBO(17, 23, 25, 1)),
-                  ),
-                ),
-          const Positioned(
-            top: 73, left: 165,
-            child: CircleAvatar(
+           Positioned(
+            bottom: MediaQuery.of(context).size.height/1.33,
+          left: MediaQuery.of(context).size.width/2.5, 
+            child: const CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png')
               ),
           ),
           Positioned(
-            top: 170, left: 170,
+             bottom: MediaQuery.of(context).size.height/1.43,
+          left: MediaQuery.of(context).size.width/2.4, 
             child: TextButton(onPressed: (){}, 
             child: const Text('Add Image'))),
           

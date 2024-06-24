@@ -212,7 +212,7 @@ class _LoginState extends State<Login> {
                               onPressed: () {
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const signUp()),
+                                  MaterialPageRoute(builder: (context) =>  SignUp()),
                                 );
                               },
                               child: const Text(

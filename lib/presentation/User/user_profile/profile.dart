@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/popAlert.dart';
@@ -11,71 +13,116 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
+Future<void> _loadUserData(Function(Map<String, String>) updateUser) async {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user != null) {
+    DocumentSnapshot userData = await FirebaseFirestore.instance
+        .collection('userDetails')
+        .doc(user.email)
+        .get();
+
+    String userName = userData['name'];
+    String email = userData['email'];
+    String phone = userData['phone'];
+
+    updateUser({
+      'name': userName,
+      'email': email,
+      'phone': phone,
+    });
+  }
+}
+
+
 class _ProfileState extends State<Profile> {
+  Map<String, String> userData = {
+    'name': '',
+    'email': '',
+    'phone': '',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData((data) {
+      setState(() {
+        userData = data;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Size size= MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          SizedBox(
-          height: MediaQuery.of(context).size.height, 
-          width: MediaQuery.of(context).size.width,
-          child: Image.asset('assets/adminProfile/profileBg.png',
-          fit: BoxFit.cover,),
+      body: Container(
+        height: size.height, 
+        width: size.width,
+        decoration: const BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/adminProfile/profileBg.png'),
+          fit: BoxFit.cover),
+          
         ),
-        Positioned(
-          bottom: MediaQuery.of(context).size.height/1.29,
-          left: MediaQuery.of(context).size.width/2.5, 
-          child: const CircleAvatar(
-            radius: 50,
-            backgroundImage: AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png')
-            ),
-        ),
-        Positioned(
-          top: 170, left: 170,
-          child: TextButton(onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const UserProfileEdit()),
-                      );
-                    }, child: const Text('Edit Profile'))),
-
-        
-        Padding(
-          padding: const EdgeInsets.all(14.0), 
+        child: Padding(
+          padding: const EdgeInsets.all(14), 
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 250),
-              createTextBox('NAME', 'NAME OF USER'),
+              const Padding(
+                padding: EdgeInsets.only(left: 30,top: 33),
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const UserProfileEdit()),
+                    );
+                  },
+                  child: const Text('Edit Profile'),
+                ),
+              ),
               const SizedBox(
-                height: 30,
+                height: 100,
               ),
-              createTextBox('EMAIL', 'EMAIL OF USER'),
-            const SizedBox(
-                height: 30, 
-              ),
-              createTextBox('PHONE NUMBER', 'PHONE NUMBER OF USER'),
-              const Spacer(),
-              Center(
-                child: TextButton(onPressed: (){
-                  
-                showAlertDialog(context,"",Duration.zero); 
-                },
-                style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+              
+                    
+                    createTextBox('NAME', userData['name'] ?? ''),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    
+                    createTextBox('EMAIL', userData['email'] ?? ''),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    createTextBox('PHONE NUMBER', userData['phone'] ?? ''),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        showAlertDialog(context, "", Duration.zero);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all<Color>(mainColor),
                       ),
-                       child: const Text('LOG OUT',style: TextStyle(
-                        color: black
-                       ),)),
-              )
+                      child: const Text(
+                        'LOG OUT',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
             ],
           ),
         )
-        ]
-      )
-    );
+          
+        )
+        );
+      
+    
   }
 }

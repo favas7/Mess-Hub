@@ -99,7 +99,8 @@ class _MessDetailsAddState extends State<MessDetailsAdd> {
     } catch (e) {
       print('Some Error Happened ?');
     }
-  }nonvegImagepicker() async {
+  }
+  nonvegImagepicker() async {
     final file = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (file == null) {
       return;

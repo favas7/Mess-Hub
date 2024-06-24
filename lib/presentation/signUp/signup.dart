@@ -1,21 +1,21 @@
-// ignore_for_file: camel_case_types, use_key_in_widget_constructors, avoid_print, non_constant_identifier_names
+// ignore_for_file: use_key_in_widget_constructors, avoid_print, non_constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/presentation/intro/introScreen.dart';
 import 'package:messhub/presentation/logIn/logIn.dart';
 import 'package:messhub/presentation/welcomeScreen/welcomeScreen.dart';
 
-class signUp extends StatefulWidget {
-  const signUp({Key? key});
-
+class SignUp extends StatefulWidget {
   @override
-  State<signUp> createState() => _SignupState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignupState extends State<signUp> {
+class _SignUpState extends State<SignUp> {
   final TextEditingController _name = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
@@ -28,6 +28,7 @@ class _SignupState extends State<signUp> {
   @override
   void dispose() {
     _name.dispose();
+    _phone.dispose();
     _email.dispose();
     _password.dispose();
     _confirmPassword.dispose();
@@ -35,6 +36,7 @@ class _SignupState extends State<signUp> {
   }
 
   Future<void> createUserWithEmailAndPassword({
+    required String name,
     required String email,
     required String password,
   }) async {
@@ -48,9 +50,29 @@ class _SignupState extends State<signUp> {
     }
   }
 
+  Future<void> saveDataToFirebase({
+    required String name,
+    required String email,
+    required String phone,
+  }) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      String documentId = email;
+      await firestore.collection('userDetails').doc(documentId).set({
+        'name': name,
+        'email': email,
+        'phone': phone,
+      });
+      print('Data saved successfully');
+    } catch (error) {
+      print('Error saving data to Firebase: $error');
+    }
+  }
+
   void _clearForm() {
-    _email.clear();
     _name.clear();
+    _phone.clear();
+    _email.clear();
     _password.clear();
     _confirmPassword.clear();
   }
@@ -117,6 +139,21 @@ class _SignupState extends State<signUp> {
                     ),
                     const SizedBox(height: 20),
                     CustomTextFormField(
+                      controller: _phone,
+                      labelText: 'Phone',
+                      hintText: 'Phone',
+                      obscureText: false,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Phone';
+                        }
+                        return null;
+                      },
+                      hintStyle: const TextStyle(color: textFieldColor),
+                      borderColor: mainColor,
+                    ),
+                    const SizedBox(height: 20),
+                    CustomTextFormField(
                       controller: _email,
                       labelText: 'Email',
                       hintText: 'Email',
@@ -148,22 +185,7 @@ class _SignupState extends State<signUp> {
                       ),
                       suffixIconColor: textFieldColor,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Password';
-                        } else if (value.length < 6) {
-                          return 'Password must be at least 6 characters long';
-                        } else if (!containsUpperCase(value)) {
-                          return 'Password must contain at least one uppercase letter';
-                        } else if (!containsLowerCase(value)) {
-                          return 'Password must contain at least one lowercase letter';
-                        } else if (!containsDigit(value)) {
-                          return 'Password must contain at least one digit';
-                        } else if (!containsSpecialCharacter(value)) {
-                          return 'Password must contain at least one special character';
-                        } else if (validatePassword(value) != null) {
-                          return 'Please enter a valid Password';
-                        }
-                        return null;
+                        return validatePassword(value);
                       },
                       hintStyle: const TextStyle(color: textFieldColor),
                       borderColor: mainColor,
@@ -195,16 +217,26 @@ class _SignupState extends State<signUp> {
                     const SizedBox(height: 30),
                     Center(
                       child: TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            createUserWithEmailAndPassword(
+                            await createUserWithEmailAndPassword(
                               email: _email.text,
                               password: _password.text,
+                              name: _name.text,
+                            );
+                            await saveDataToFirebase(
+                              name: _name.text,
+                              email: _email.text,
+                              phone: _phone.text,
                             );
                             _clearForm();
+                            // ignore: use_build_context_synchronously
                             Navigator.pushReplacement(
+                              // ignore: use_build_context_synchronously
                               context,
-                              MaterialPageRoute(builder: (context) => const IntroScreen1()),
+                              MaterialPageRoute(
+                                builder: (context) => const IntroScreen1(),
+                              ),
                             );
                           }
                         },
@@ -244,7 +276,7 @@ class _SignupState extends State<signUp> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -291,9 +323,9 @@ bool isEmailValid(String email) {
 }
 
 Widget CustomTextFormField({
-  String? labelText,
-  String? hintText,
-  TextStyle? hintStyle,
+  required String labelText,
+  required String hintText,
+  required TextStyle hintStyle,
   required FormFieldValidator<String> validator,
   required Color borderColor,
   required TextEditingController controller,
@@ -304,7 +336,7 @@ Widget CustomTextFormField({
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(labelText!),
+      Text(labelText),
       TextFormField(
         controller: controller,
         validator: validator,

@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/presentation/admin/adminProfile/adminProfile.dart';
 import 'package:messhub/presentation/admin/adminHome/adminHome.dart';
-import 'package:messhub/presentation/admin/customerList/customerList.dart';
+import 'package:messhub/presentation/admin/customerList/customer_list.dart';
+import 'package:messhub/presentation/admin/user_request/user_request.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({Key? key}) : super(key: key);
@@ -42,8 +43,9 @@ class _BottomNavState extends State<BottomNav> {
         },
         children: const [
           AdminHome(),
+          UserRequest(),
           CustomerList(),
-          AdminProfile(),
+         AdminProfile (),
         ],
       ),
       bottomNavigationBar: ConvexAppBar(
@@ -51,6 +53,7 @@ class _BottomNavState extends State<BottomNav> {
         backgroundColor: mainColor,
         items: const [
           TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.request_page, title: 'Requests'),
           TabItem(icon: Icons.list_outlined, title: 'Customer List'),
           TabItem(icon: Icons.person, title: 'Profile'),
         ],

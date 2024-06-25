@@ -7,7 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/hive/favmodel.dart';
 import 'package:messhub/presentation/admin/adminHome/adminDetails.dart';
-import 'package:messhub/presentation/admin/customerList/messDetailsAdd.dart';
+import 'package:messhub/presentation/admin/adminHome/messDetailsAdd.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});

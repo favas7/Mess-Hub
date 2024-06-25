@@ -81,205 +81,211 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Stack(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset(
-                'assets/Login/Screenshot 2024-04-03 105949.png',
-                fit: BoxFit.fill,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 60, left: 10),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-                  );
-                },
-                icon: const Icon(Icons.arrow_back_ios, color: backIconColor),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 150),
-                    const Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: black,
-                      ),
+            GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Stack(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: Image.asset(
+                      'assets/Login/Screenshot 2024-04-03 105949.png',
+                      fit: BoxFit.fill,
                     ),
-                    const SizedBox(height: 50),
-                    CustomTextFormField(
-                      controller: _name,
-                      labelText: 'Full Name',
-                      hintText: 'Full Name',
-                      obscureText: false,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Name';
-                        }
-                        return null;
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 60, left: 10),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                        );
                       },
-                      hintStyle: const TextStyle(color: textFieldColor),
-                      borderColor: mainColor,
+                      icon: const Icon(Icons.arrow_back_ios, color: backIconColor),
                     ),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                      controller: _phone,
-                      labelText: 'Phone',
-                      hintText: 'Phone',
-                      obscureText: false,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your Phone';
-                        }
-                        return null;
-                      },
-                      hintStyle: const TextStyle(color: textFieldColor),
-                      borderColor: mainColor,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                      controller: _email,
-                      labelText: 'Email',
-                      hintText: 'Email',
-                      obscureText: false,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        } else if (!isEmailValid(value)) {
-                          return 'Please enter a valid email address';
-                        }
-                        return null;
-                      },
-                      hintStyle: const TextStyle(color: textFieldColor),
-                      borderColor: mainColor,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                      controller: _password,
-                      labelText: 'Password',
-                      hintText: 'Password',
-                      obscureText: _obscureText1,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _obscureText1 = !_obscureText1;
-                          });
-                        },
-                        icon: const Icon(Icons.remove_red_eye),
-                      ),
-                      suffixIconColor: textFieldColor,
-                      validator: (value) {
-                        return validatePassword(value);
-                      },
-                      hintStyle: const TextStyle(color: textFieldColor),
-                      borderColor: mainColor,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                      controller: _confirmPassword,
-                      labelText: 'Confirm Password',
-                      hintText: 'Confirm Password',
-                      obscureText: _obscureText2,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _obscureText2 = !_obscureText2;
-                          });
-                        },
-                        icon: const Icon(Icons.remove_red_eye),
-                      ),
-                      suffixIconColor: textFieldColor,
-                      validator: (value) {
-                        if (value != _password.text) {
-                          return 'Password does not match';
-                        }
-                        return null;
-                      },
-                      hintStyle: const TextStyle(color: textFieldColor),
-                      borderColor: mainColor,
-                    ),
-                    const SizedBox(height: 30),
-                    Center(
-                      child: TextButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            await createUserWithEmailAndPassword(
-                              email: _email.text,
-                              password: _password.text,
-                              name: _name.text,
-                            );
-                            await saveDataToFirebase(
-                              name: _name.text,
-                              email: _email.text,
-                              phone: _phone.text,
-                            );
-                            _clearForm();
-                            // ignore: use_build_context_synchronously
-                            Navigator.pushReplacement(
-                              // ignore: use_build_context_synchronously
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const IntroScreen1(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 150),
+                          const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: black,
+                            ),
+                          ),
+                          const SizedBox(height: 50),
+                          CustomTextFormField(
+                            controller: _name,
+                            labelText: 'Full Name',
+                            hintText: 'Full Name',
+                            obscureText: false,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your Name';
+                              }
+                              return null;
+                            },
+                            hintStyle: const TextStyle(color: textFieldColor),
+                            borderColor: mainColor,
+                          ),
+                          const SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: _phone,
+                            labelText: 'Phone',
+                            hintText: 'Phone',
+                            obscureText: false,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your Phone';
+                              }
+                              return null;
+                            },
+                            hintStyle: const TextStyle(color: textFieldColor),
+                            borderColor: mainColor,
+                          ),
+                          const SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: _email,
+                            labelText: 'Email',
+                            hintText: 'Email',
+                            obscureText: false,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              } else if (!isEmailValid(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                            hintStyle: const TextStyle(color: textFieldColor),
+                            borderColor: mainColor,
+                          ),
+                          const SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: _password,
+                            labelText: 'Password',
+                            hintText: 'Password',
+                            obscureText: _obscureText1,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText1 = !_obscureText1;
+                                });
+                              },
+                              icon: const Icon(Icons.remove_red_eye),
+                            ),
+                            suffixIconColor: textFieldColor,
+                            validator: (value) {
+                              return validatePassword(value);
+                            },
+                            hintStyle: const TextStyle(color: textFieldColor),
+                            borderColor: mainColor,
+                          ),
+                          const SizedBox(height: 20),
+                          CustomTextFormField(
+                            controller: _confirmPassword,
+                            labelText: 'Confirm Password',
+                            hintText: 'Confirm Password',
+                            obscureText: _obscureText2,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText2 = !_obscureText2;
+                                });
+                              },
+                              icon: const Icon(Icons.remove_red_eye),
+                            ),
+                            suffixIconColor: textFieldColor,
+                            validator: (value) {
+                              if (value != _password.text) {
+                                return 'Password does not match';
+                              }
+                              return null;
+                            },
+                            hintStyle: const TextStyle(color: textFieldColor),
+                            borderColor: mainColor,
+                          ),
+                          const SizedBox(height: 30),
+                          Center(
+                            child: TextButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await createUserWithEmailAndPassword(
+                                    email: _email.text,
+                                    password: _password.text,
+                                    name: _name.text,
+                                  );
+                                  await saveDataToFirebase(
+                                    name: _name.text,
+                                    email: _email.text,
+                                    phone: _phone.text,
+                                  );
+                                  _clearForm();
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pushReplacement(
+                                    // ignore: use_build_context_synchronously
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const IntroScreen1(),
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(mainColor),
                               ),
-                            );
-                          }
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all<Color>(mainColor),
-                        ),
-                        child: const Text(
-                          'SIGN UP',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: white,
+                              child: const Text(
+                                'SIGN UP',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: white,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2 - 100,
+                              ),
+                              const Text("Already have an account"),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const Login()),
+                                  );
+                                },
+                                child: const Text(
+                                  'Log In',
+                                  style: TextStyle(color: mainColor),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2 - 100,
-                        ),
-                        const Text("Already have an account"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Login()),
-                            );
-                          },
-                          child: const Text(
-                            'Log In',
-                            style: TextStyle(color: mainColor),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      ),
+    )
     );
   }
 }

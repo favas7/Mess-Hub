@@ -1,6 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
@@ -8,14 +10,38 @@ import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 class OwnerDetails extends StatefulWidget {
   final Map<String, dynamic> data;
   final int index;
+  final String id;
 
-  const OwnerDetails({Key? key, required this.index, required this.data, required String id}) : super(key: key);
+  const OwnerDetails({
+    Key? key,
+    required this.index,
+    required this.data,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<OwnerDetails> createState() => _OwnerDetailsState();
 }
 
 class _OwnerDetailsState extends State<OwnerDetails> {
+  Future<void> saveSubscriptionToFirebase(Map<String, dynamic> sub) async {
+    try {
+      await FirebaseFirestore.instance.collection('subscribe').add(sub);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Subscribed successfully',style: TextStyle(
+          color: mainColor,
+
+        ),)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to subscribe: $e',style: const TextStyle(
+          color: mainColor
+        ),)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,206 +50,196 @@ class _OwnerDetailsState extends State<OwnerDetails> {
           children: [
             Text(widget.data['messname']),
             const Spacer(),
-            TextButton(onPressed: (){
-              // Map<String,dynamic>sub ={
-
-              // };
-            },
-            style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(mainColor),
-                    ),
-                    child: const Text(
-                      'Subscribe', 
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: white,
-                      ),
-                    ))
-          ]
+            TextButton(
+              onPressed: () {
+                Map<String, dynamic> sub = {
+                  'messname': widget.data['messname'],
+                  'email': FirebaseAuth.instance.currentUser?.email ?? 'Unknown',
+                  'phone': widget.data['contact'],  // Assuming the phone number is in widget.data
+                  'username': widget.data['owner'],  // Assuming the username is in widget.data
+                };
+                saveSubscriptionToFirebase(sub);
+              },
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+              ),
+              child: const Text(
+                'Subscribe',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: white,
+                ),
+              ),
+            )
+          ],
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-          padding: const EdgeInsets.all(14.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
+              padding: const EdgeInsets.all(14.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    widget.data['mainimage'],
-                    height: 300,
-                    fit: BoxFit.fill,
+                  Stack(
+                    children: [
+                      Image.network(
+                        widget.data['mainimage'],
+                        height: 300,
+                        fit: BoxFit.fill,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'About',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              const Text(
-                'Description about the mess in detail to understand customer. Description about the mess in detail to understand ',
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 30,
+                  const SizedBox(height: 20),
+                  const Text(
+                    'About',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Menuviewer(
-                            index: widget.index,
-                            data: widget.data,
+                  const Text(
+                    'Description about the mess in detail to understand customer. Description about the mess in detail to understand ',
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      const SizedBox(width: 30),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Menuviewer(
+                                index: widget.index,
+                                data: widget.data,
+                              ),
+                            ),
+                          );
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                        ),
+                        child: const Text(
+                          '                 CLICK HERE FOR MENU                 ',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: white,
                           ),
                         ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(mainColor),
-                    ),
-                    child: const Text(
-                      '                 CLICK HERE FOR MENU                 ',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: white,
                       ),
-                    ),
+                    ],
                   ),
-                  
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Price Details',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Table(
+                    border: TableBorder.all(color: Colors.black),
+                    children: [
+                      const TableRow(
+                        children: [
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(' ', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('VEG', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('NON VEG', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Full Plan'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(widget.data['fullplan']),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(widget.data['fullplan']),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Lunch Only'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(widget.data['lunchonly']),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(widget.data['lunchonly']),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          const TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Two Times'),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(widget.data['twotimemeal']),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(widget.data['twotimemeal']),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  createTextBox('Mess Owner Name', widget.data['owner']),
+                  const SizedBox(height: 30),
+                  createTextBox('Contact', widget.data['contact']),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text('Price Details',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              Table(
-          border: TableBorder.all(color: Colors.black),
-          children:  [
-            const TableRow(
-              children: [
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(' ', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('VEG', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('NON VEG', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                const TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Full Plan'), 
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['fullplan']),
-                  ),
-                ),
-                 TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['fullplan']),
-                  ),
-                ),
-              ],
-            ),
-             TableRow(
-              children: [
-                const TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Lunch Only'),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['lunchonly']),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['lunchonly']),
-                  ),
-                ),
-              ],
-            ),
-             TableRow(
-              children: [
-                const TableCell(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Two Times'),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['twotimemeal']),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.data['twotimemeal']),
-                  ),
-                ),
-              ],
-            ),
+            )
           ],
         ),
-        const SizedBox(
-          height: 30,
-        ),
-        createTextBox('Mess Owner Name', widget.data['owner']),
-        const SizedBox(
-          height: 30,
-        ),  
-        createTextBox('Contact', widget.data['contact']),
-      
-            ],
-          ),
-        )
-          ],
-        ),
-      ),     
-      
+      ),
     );
   }
 }

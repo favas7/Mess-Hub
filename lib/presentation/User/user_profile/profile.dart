@@ -6,6 +6,7 @@ import 'package:messhub/functions/popAlert.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/presentation/User/user_profile/user_profile_edit.dart';
 
+late Map<String, dynamic> loginUser;
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -25,6 +26,11 @@ Future<void> _loadUserData(Function(Map<String, String>) updateUser) async {
     String userName = userData['name'];
     String email = userData['email'];
     String phone = userData['phone'];
+    loginUser={
+      'username':userName,
+      'email':email,
+      'phone':phone
+    };
 
     updateUser({
       'name': userName,
@@ -116,6 +122,9 @@ class _ProfileState extends State<Profile> {
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    )
             ],
           ),
         )

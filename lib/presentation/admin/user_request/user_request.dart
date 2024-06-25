@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/sucsess_message.dart';
 
 class UserRequest extends StatefulWidget {
   const UserRequest({super.key});
@@ -23,13 +24,9 @@ class _UserRequestState extends State<UserRequest> {
       // Delete the subscription from the "subscribe" collection
       await FirebaseFirestore.instance.collection('subscribe').doc(subscription.id).delete();
       
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Subscription accepted.')),
-      );
+      showSuccessMessage(context, 'Subscription accepted',duration: 2);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to accept subscription: $e')),
-      );
+      showSuccessMessage(context, 'Failed to accept subscription',duration: 2);
     }
   }
 
@@ -38,16 +35,12 @@ class _UserRequestState extends State<UserRequest> {
       // Delete the subscription from the "subscribe" collection
       await FirebaseFirestore.instance.collection('subscribe').doc(subscriptionId).delete();
       
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Subscription declined.')),
-      );
+      showSuccessMessage(context, 'Subscription declined',duration: 2);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to decline subscription: $e')),
-      );
+      showSuccessMessage(context, 'Failed to decline subscription',duration: 2);
     }
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(

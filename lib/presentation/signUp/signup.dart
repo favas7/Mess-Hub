@@ -1,9 +1,10 @@
-// ignore_for_file: use_key_in_widget_constructors, avoid_print, non_constant_identifier_names
+// ignore_for_file: use_key_in_widget_constructors, avoid_print, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/sign_up_textfield.dart';
 import 'package:messhub/presentation/intro/introScreen.dart';
 import 'package:messhub/presentation/logIn/logIn.dart';
 import 'package:messhub/presentation/welcomeScreen/welcomeScreen.dart';
@@ -24,6 +25,8 @@ class _SignUpState extends State<SignUp> {
 
   bool _obscureText1 = true;
   bool _obscureText2 = true;
+
+  bool isUserMode = true; // State variable for switch
 
   @override
   void dispose() {
@@ -54,6 +57,7 @@ class _SignUpState extends State<SignUp> {
     required String name,
     required String email,
     required String phone,
+    required String userType,
   }) async {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -62,6 +66,7 @@ class _SignUpState extends State<SignUp> {
         'name': name,
         'email': email,
         'phone': phone,
+        'usertype': userType,
       });
       print('Data saved successfully');
     } catch (error) {
@@ -116,7 +121,33 @@ class _SignUpState extends State<SignUp> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 150),
+                          const SizedBox(height: 100),
+                          Center(
+                            child: Column(
+                            children: [
+                                Text(
+                                    isUserMode ? 'User Mode' : 'Admin Mode',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: black,
+                                    ),
+                                  ),
+                                  Switch(
+                                    value: isUserMode,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        isUserMode = value;
+                                      });
+                                    },
+                                    activeColor: mainColor,
+                                  ),
+                              ]
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
                           const Text(
                             'Sign Up',
                             style: TextStyle(
@@ -126,7 +157,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           const SizedBox(height: 50),
-                          CustomTextFormField(
+                          customTextFormField(
                             controller: _name,
                             labelText: 'Full Name',
                             hintText: 'Full Name',
@@ -141,7 +172,7 @@ class _SignUpState extends State<SignUp> {
                             borderColor: mainColor,
                           ),
                           const SizedBox(height: 20),
-                          CustomTextFormField(
+                          customTextFormField(
                             controller: _phone,
                             labelText: 'Phone',
                             hintText: 'Phone',
@@ -156,7 +187,7 @@ class _SignUpState extends State<SignUp> {
                             borderColor: mainColor,
                           ),
                           const SizedBox(height: 20),
-                          CustomTextFormField(
+                          customTextFormField(
                             controller: _email,
                             labelText: 'Email',
                             hintText: 'Email',
@@ -173,7 +204,7 @@ class _SignUpState extends State<SignUp> {
                             borderColor: mainColor,
                           ),
                           const SizedBox(height: 20),
-                          CustomTextFormField(
+                          customTextFormField(
                             controller: _password,
                             labelText: 'Password',
                             hintText: 'Password',
@@ -194,7 +225,7 @@ class _SignUpState extends State<SignUp> {
                             borderColor: mainColor,
                           ),
                           const SizedBox(height: 20),
-                          CustomTextFormField(
+                          customTextFormField(
                             controller: _confirmPassword,
                             labelText: 'Confirm Password',
                             hintText: 'Confirm Password',
@@ -219,41 +250,55 @@ class _SignUpState extends State<SignUp> {
                           ),
                           const SizedBox(height: 30),
                           Center(
-                            child: TextButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await createUserWithEmailAndPassword(
-                                    email: _email.text,
-                                    password: _password.text,
-                                    name: _name.text,
-                                  );
-                                  await saveDataToFirebase(
-                                    name: _name.text,
-                                    email: _email.text,
-                                    phone: _phone.text,
-                                  );
-                                  _clearForm();
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.pushReplacement(
-                                    // ignore: use_build_context_synchronously
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const IntroScreen1(),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 20), // Add some space between the switch and the button
+                                TextButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      await createUserWithEmailAndPassword(
+                                        email: _email.text,
+                                        password: _password.text,
+                                        name: _name.text,
+                                      );
+                                      await saveDataToFirebase(
+                                        userType: isUserMode==true? 'User' : 'Admin',
+                                        name: _name.text,
+                                        email: _email.text,
+                                        phone: _phone.text,
+                                      );
+                                      _clearForm();
+                                      if(isUserMode==true){
+                                        Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const IntroScreen1(),
+                                        ),
+                                      );
+                                      }
+                                      else {
+                                        Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const Login(),
+                                        ),
+                                      );
+                                      }
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.all<Color>(mainColor),
+                                  ),
+                                  child: const Text(
+                                    'SIGN UP',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: white,
                                     ),
-                                  );
-                                }
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(mainColor),
-                              ),
-                              child: const Text(
-                                'SIGN UP',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: white,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                           Row(
@@ -285,7 +330,7 @@ class _SignUpState extends State<SignUp> {
             ),
           ],
         ),
-    )
+      ),
     );
   }
 }
@@ -328,40 +373,3 @@ bool isEmailValid(String email) {
   return emailRegex.hasMatch(email);
 }
 
-Widget CustomTextFormField({
-  required String labelText,
-  required String hintText,
-  required TextStyle hintStyle,
-  required FormFieldValidator<String> validator,
-  required Color borderColor,
-  required TextEditingController controller,
-  required bool obscureText,
-  IconButton? suffixIcon,
-  Color? suffixIconColor,
-}) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(labelText),
-      TextFormField(
-        controller: controller,
-        validator: validator,
-        obscureText: obscureText,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: hintStyle,
-          border: InputBorder.none,
-          suffixIcon: suffixIcon,
-          suffixIconColor: suffixIconColor,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: borderColor,
-              width: 2.0,
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}

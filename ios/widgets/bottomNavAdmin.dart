@@ -3,7 +3,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/presentation/admin/adminProfile/adminProfile.dart';
+import 'package:messhub/presentation/admin/adminProfile/admin_profile.dart';
 import 'package:messhub/presentation/admin/adminHome/adminHome.dart';
 import 'package:messhub/presentation/admin/customerList/customer_list.dart';
 

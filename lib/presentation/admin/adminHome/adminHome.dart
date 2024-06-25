@@ -1,6 +1,7 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,12 +17,16 @@ class AdminHome extends StatefulWidget {
   State<AdminHome> createState() => _AdminHomeState();
 }
 
+
 class _AdminHomeState extends State<AdminHome> {
+  User? user = FirebaseAuth.instance.currentUser;
+  late String? email = user?.email;
+
   // Keeping track of the favorite status
   final Map<String, bool> _favorites = {};
-
   @override
   void initState() {
+    print(email);
     super.initState();
     _loadFavorites();
   }
@@ -62,17 +67,20 @@ class _AdminHomeState extends State<AdminHome> {
       ), 
       backgroundColor: adminBg,
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("messdetails").snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No Data Found'));
-          } else {
-            List<QueryDocumentSnapshot> messDetails = snapshot.data!.docs;
-            return ListView.builder(
+  stream: FirebaseFirestore.instance
+      .collection("messdetails")
+      .where("email", isEqualTo: email)
+      .snapshots(),
+  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (snapshot.hasError) {
+      return Center(child: Text('Error: ${snapshot.error}'));
+    } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+      return const Center(child: Text('No Data Found'));
+    } else {
+      List<QueryDocumentSnapshot> messDetails = snapshot.data!.docs;
+      return ListView.builder(
               itemCount: messDetails.length,
               itemBuilder: (BuildContext context, int index) {
                 var detail = messDetails[index];
@@ -91,6 +99,7 @@ class _AdminHomeState extends State<AdminHome> {
                   'fullplanveg': detail.get('FullPlanVeg') ?? '',
                   'twotimemealveg': detail.get('TwoTimeMealVeg') ?? '',
                   'lunchonlyveg': detail.get('LunchOnlyVeg') ?? '',
+
                 };
 
                 return Padding(

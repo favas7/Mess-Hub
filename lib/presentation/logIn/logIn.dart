@@ -1,9 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, file_names, prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously, file_names, prefer_const_constructors, unrelated_type_equality_checks, avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/sucsess_message.dart';
 import 'package:messhub/presentation/logIn/forgotPass.dart';
 import 'package:messhub/presentation/welcomeScreen/welcomeScreen.dart';
 import 'package:messhub/presentation/signUp/signup.dart';
@@ -17,17 +18,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-void showSuccessMessage(BuildContext context, String message, {int duration = 2}) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: mainColor,
-    textColor: white,
-    fontSize: 16.0,
-    timeInSecForIosWeb: duration, // Duration in seconds
-  );
-}
+
 
 bool _obscureText = true;
 
@@ -69,8 +60,12 @@ class _LoginState extends State<Login> {
                     icon: const Icon(Icons.arrow_back_ios, color: Color.fromRGBO(17, 23, 25, 1)),
                   ),
                 ),
+                
                 const SizedBox(
-                  height: 80,
+                  height: 50,
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Padding(
                   padding: EdgeInsets.only(right: 300),
@@ -233,41 +228,83 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
+      
     );
-  }
+    
+    }
+    
+ getUserType(String email,) async {
+  final collectionRef = FirebaseFirestore.instance.collection('userDetails');
 
-  Future<void> signInWithEmailAndPassword() async {
-    if (_emailLogIn.text == 'admin@gmail.com' && _passwordLogIn.text == 'Admin@123') {
-      Navigator.pushAndRemoveUntil(
+  try {
+    // Get the document where email matches the provided email
+    final docSnapshot = await collectionRef.where('email', isEqualTo: email).get();
+
+    // Check if a document was found
+    if (docSnapshot.size == 0) {
+      print('not found');
+      return 'notFound'; // No document found with that email
+      
+    }
+
+    // Extract the userType from the first matching document
+    final userType = docSnapshot.docs[0].get('usertype');
+        if(userType=='Admin'){
+          Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
           builder: (context) => const adminSplash(),
         ),
         (route) => false,
       );
-      _clearForm();
-    } else if (_emailLogIn.text == 'owner@gmail.com' && _passwordLogIn.text == 'Owner@123') {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const adminSplash(),
-        ),
-        (route) => false,
-      );
-      _clearForm();
-    } else {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailLogIn.text,
-          password: _passwordLogIn.text,
-        );
-        Navigator.pushAndRemoveUntil(
+        }
+    // Check if userType is valid and return it
+  else if (userType == 'User') {
+
+     Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const BottomNavUser(),
           ),
           (route) => false,
         );
+    } else {
+      return print('invalid user'); // Invalid userType value found
+    }
+  } catch (error) {
+    print('Error checking user: $error');
+    return 'error'; // Return 'error' on errors
+  }
+}
+    navigateToAdmin(){
+      return Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BottomNavUser(),
+          ),
+          (route) => false,
+        );
+        
+  }
+
+  Future<void> signInWithEmailAndPassword() async {
+
+      
+    
+      try {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailLogIn.text,
+          password: _passwordLogIn.text,
+        );
+      getUserType(_emailLogIn.text);
+      // //  print(usertype);
+      // //  if(usertype == 'User'){
+          
+      // //  }
+      // //  else if(usertype == 'Admin'){
+      // //   
+      //  }
+       
         _clearForm();
       } catch (e) {
         showSuccessMessage(context, "Email or password is incorrect", duration: 2);
@@ -279,7 +316,7 @@ class _LoginState extends State<Login> {
     final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
     return emailRegex.hasMatch(email);
   }
-}
+
 
 String? validatePassword(String? value) {
   if (value == null || value.isEmpty) {
@@ -313,3 +350,5 @@ bool containsDigit(String value) {
 bool containsSpecialCharacter(String value) {
   return value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
 }
+
+

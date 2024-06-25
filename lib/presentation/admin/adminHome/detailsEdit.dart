@@ -8,6 +8,7 @@ import 'package:messhub/color/color.dart';
 import 'package:messhub/firebase/dataupdate.dart';
 import 'package:messhub/functions/alert_box.dart';
 import 'package:messhub/functions/details_edit_textfield.dart';
+import 'package:messhub/widgets/bottomNavAdmin.dart';
 
 class Detailsedit extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -116,6 +117,10 @@ class _DetailseditState extends State<Detailsedit> {
                 () {
                   deleteDocument(widget.id);
                   print("Item deleted");
+                  Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const BottomNav()),
+    );
                 },
               );}, icon: const Icon(Icons.delete))
           ],

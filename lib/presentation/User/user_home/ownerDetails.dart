@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/profileTextBox.dart';
+import 'package:messhub/functions/sucsess_message.dart';
 import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
 
 class OwnerDetails extends StatefulWidget {
@@ -27,18 +28,9 @@ class _OwnerDetailsState extends State<OwnerDetails> {
   Future<void> saveSubscriptionToFirebase(Map<String, dynamic> sub) async {
     try {
       await FirebaseFirestore.instance.collection('subscribe').add(sub);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Subscribed successfully',style: TextStyle(
-          color: mainColor,
-
-        ),)),
-      );
+      showSuccessMessage(context, 'Mess Subscribed Succesfully',duration: 2);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to subscribe: $e',style: const TextStyle(
-          color: mainColor
-        ),)),
-      );
+      showSuccessMessage(context, 'Failed to subscribe',duration: 2);
     }
   }
 

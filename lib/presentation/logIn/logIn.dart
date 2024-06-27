@@ -257,6 +257,7 @@ class _LoginState extends State<Login> {
         ),
         (route) => false,
       );
+      _clearForm();
         }
     // Check if userType is valid and return it
   else if (userType == 'User') {
@@ -268,6 +269,7 @@ class _LoginState extends State<Login> {
           ),
           (route) => false,
         );
+        _clearForm();
     } else {
       return print('invalid user'); // Invalid userType value found
     }
@@ -285,6 +287,7 @@ class _LoginState extends State<Login> {
           (route) => false,
         );
         
+        
   }
 
   Future<void> signInWithEmailAndPassword() async {
@@ -297,15 +300,9 @@ class _LoginState extends State<Login> {
           password: _passwordLogIn.text,
         );
       getUserType(_emailLogIn.text);
-      // //  print(usertype);
-      // //  if(usertype == 'User'){
-          
-      // //  }
-      // //  else if(usertype == 'Admin'){
-      // //   
-      //  }
+
        
-        _clearForm();
+        
       } catch (e) {
         showSuccessMessage(context, "Email or password is incorrect", duration: 2);
       }

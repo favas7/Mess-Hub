@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:messhub/color/color.dart';
@@ -40,9 +41,9 @@ class _UserProfileEditState extends State<UserProfileEdit> {
           .get();
 
       setState(() {
-        _username.text = userData['name'];
-        _email.text = userData['email'];
-        _phone.text = userData['phone'];
+        _username.text = userData['name'] ?? '';
+        _email.text = userData['email'] ?? '';
+        _phone.text = userData['phone'] ?? '';
       });
     }
   }
@@ -58,19 +59,45 @@ class _UserProfileEditState extends State<UserProfileEdit> {
     });
   }
 
+  Future<String?> _uploadImage(File image) async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref().child('user_images/${user!.email}');
+      final uploadTask = storageRef.putFile(image);
+
+      final snapshot = await uploadTask.whenComplete(() => null);
+      final downloadURL = await snapshot.ref.getDownloadURL();
+
+      await FirebaseFirestore.instance.collection('userDetails').doc(user!.email).update({
+        'profileImage': downloadURL,
+      });
+
+      return downloadURL;
+    } catch (e) {
+      print('Failed to upload image: $e');
+      return null;
+    }
+  }
+
   Future<void> _updateUserData() async {
     if (user != null) {
+      String? profileImageUrl;
+      if (_imageFile != null) {
+        profileImageUrl = await _uploadImage(_imageFile!);
+      }
+
       await FirebaseFirestore.instance.collection('userDetails').doc(user!.email).update({
         'name': _username.text,
         'email': _email.text,
         'phone': _phone.text,
+        if (profileImageUrl != null) 'profileImage': profileImageUrl,
       });
+
+      // Navigate back to profile screen after updating data
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavUser()),
+      );
     }
-    // Navigate back to profile screen after updating data
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const BottomNavUser()),
-    );
   }
 
   @override
@@ -78,12 +105,15 @@ class _UserProfileEditState extends State<UserProfileEdit> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Profile"),
-        leading: IconButton(onPressed: (){Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const BottomNavUser()),
-    );
-    }, 
-    icon: const Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const BottomNavUser()),
+            );
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
@@ -104,10 +134,10 @@ class _UserProfileEditState extends State<UserProfileEdit> {
             ),
             Positioned(
               bottom: MediaQuery.of(context).size.height / 1.43,
-              left: MediaQuery.of(context).size.width / 2.4,
+              left: MediaQuery.of(context).size.width / 2.6,
               child: TextButton(
                 onPressed: _pickImage,
-                child: const Text('Add Image'),
+                child: const Text('Update Image'), 
               ),
             ),
             Padding(

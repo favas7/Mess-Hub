@@ -4,9 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:messhub/color/color.dart';
-import 'package:messhub/hive/favmodel.dart';
 import 'package:messhub/presentation/admin/adminHome/adminDetails.dart';
 import 'package:messhub/presentation/admin/adminHome/messDetailsAdd.dart';
 
@@ -23,30 +21,9 @@ class _AdminHomeState extends State<AdminHome> {
   late String? email = user?.email;
 
   // Keeping track of the favorite status
-  final Map<String, bool> _favorites = {};
-  @override
-  void initState() {
-    print(email);
-    super.initState();
-    _loadFavorites();
-  }
 
-  void _loadFavorites() async {
-    // Ensure the box is opened and awaited
-    await Hive.openBox('favorites');
-    final box = Hive.box('favorites');
 
-    final keys = box.keys;
-    final favStatus = <String, bool>{};
 
-    for (var key in keys) {
-      favStatus[key] = true;
-    }
-
-    setState(() {
-      _favorites.addAll(favStatus);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,27 +156,7 @@ class _AdminHomeState extends State<AdminHome> {
                               'Description about the mess in detail to understand \n customer.Description about the mess in detail to \n understand',
                             ),
                           ),
-                          Positioned(
-                            right: 10,
-                            bottom: 95,
-                            child: IconButton(
-                              onPressed: () async {
-                                if (_favorites[detail.id] == true) {
-                                  await deletefav(id: details['messname']);
-                                } else {
-                                  await addfav(mess: details['messname'], id: details['messname']);
-                                }
-                                setState(() {
-                                  _favorites[detail.id] = !(_favorites[detail.id] ?? false);
-                                });
-                              },
-                              icon: Icon(
-                                Icons.favorite,
-                                size: 30,
-                                color: _favorites[detail.id] == true ? mainColor : black,
-                              ),
-                            ),
-                          ),
+                          
                         ],
                       ),
                     ),

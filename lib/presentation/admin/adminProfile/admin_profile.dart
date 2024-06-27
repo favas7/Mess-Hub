@@ -7,7 +7,7 @@ import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/popAlert.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/presentation/admin/adminProfile/admin_profile_edit.dart';
-late Map<String, dynamic> loginUser;
+Map<String, dynamic> loginAdmin = {};
 
 class AdminProfile extends StatefulWidget {
   const AdminProfile({super.key});
@@ -28,7 +28,7 @@ Future<void> _loadUserData(Function(Map<String, String>) updateUser) async {
     String userName = userData['name'];
     String email = userData['email'];
     String phone = userData['phone'];
-    loginUser={
+    loginAdmin={
       'username':userName,
       'email':email,
       'phone':phone

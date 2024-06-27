@@ -3,10 +3,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
+import 'package:messhub/functions/user_details.dart';
 import 'package:messhub/presentation/User/user_home/home.dart';
 import 'package:messhub/presentation/User/user_profile/profile.dart';
 import 'package:messhub/presentation/User/user_data/userData.dart';
-
+Map<String, dynamic>?userdetails = {};
 class BottomNavUser extends StatefulWidget {
   const BottomNavUser({Key? key}) : super(key: key);
 
@@ -22,6 +23,7 @@ class _BottomNavUserState extends State<BottomNavUser> {
   void initState() {
     super.initState();
     _userPageController = PageController(initialPage: _selectedIndexUser);
+    fetchUserDetails();
   }
 
   @override
@@ -29,7 +31,16 @@ class _BottomNavUserState extends State<BottomNavUser> {
     _userPageController.dispose();
     super.dispose();
   }
-
+Future<void> fetchUserDetails() async {
+    setState(() {
+      
+    });
+    Map<String, dynamic>? details = await loadUserData();
+    setState(() {
+      userdetails = details;
+     
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

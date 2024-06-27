@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
   }
 
   void _loadFavorites() async {
-    final box = Hive.box<String>('favorites');
+    final box = Hive.box<dynamic>('favorites');
     final keys = box.keys;
     final favStatus = <String, bool>{};
 
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
       _favorites.addAll(favStatus);
     });
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +71,8 @@ class _HomeState extends State<Home> {
                   'fullplanveg': detail.get('FullPlanVeg') ?? '',
                   'twotimemealveg': detail.get('TwoTimeMealVeg') ?? '',
                   'lunchonlyveg': detail.get('LunchOnlyVeg') ?? '',
+                  'email':detail.get('email')??'',
+                  
                 };
 
                 return Padding(

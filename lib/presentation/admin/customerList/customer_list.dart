@@ -18,45 +18,45 @@ class _CustomerListState extends State<CustomerList> {
         backgroundColor: mainColor,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('subscribed').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance.collection('subscribed').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+            if (!snapshot.hasData) {
+              return const Center(child: Text('No data available'));
+            }
 
-                  var customers = snapshot.data!.docs;
+            var customers = snapshot.data!.docs;
 
-                  return ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: customers.length,
-                    itemBuilder: (context, index) {
-                      var customer = customers[index];
-                      return ListTile(
-                        title: Text(customer['messname']),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Email: ${customer['email']}'),
-                            Text('Phone: ${customer['phone']}'),
-                            Text('Username: ${customer['username']}'),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
-                  );
-                },
+            return ListView.separated(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: customers.length,
+              itemBuilder: (context, index) {
+                var customer = customers[index];
+                var data = customer.data() as Map<String, dynamic>;
+
+                return ListTile(
+                  title: Text(data['username'] ?? 'No username'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Email: ${data['useremail'] ?? 'No email'}'), 
+                      Text('Phone: ${data['phone'] ?? 'No phone'}'),
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => const Divider(
+                color: Colors.grey,
+                thickness: 1,
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

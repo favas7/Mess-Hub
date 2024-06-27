@@ -7,6 +7,7 @@ import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/functions/sucsess_message.dart';
 import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
+import 'package:messhub/widgets/bottomNavUser.dart';
 
 class OwnerDetails extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -28,10 +29,11 @@ class _OwnerDetailsState extends State<OwnerDetails> {
   Future<void> saveSubscriptionToFirebase(Map<String, dynamic> sub) async {
     try {
       await FirebaseFirestore.instance.collection('subscribe').add(sub);
-      showSuccessMessage(context, 'Mess Subscribed Succesfully',duration: 2);
+      showSuccessMessage(context, 'Mess subscrption request sent',duration: 2);
+      showSuccessMessage(context, 'Please Wait untill admin accept your request',duration: 2); 
     } catch (e) {
-      showSuccessMessage(context, 'Failed to subscribe',duration: 2);
-    }
+      showSuccessMessage(context, 'Failed to subscribe',duration: 3);
+    } 
   }
 
   @override
@@ -46,10 +48,11 @@ class _OwnerDetailsState extends State<OwnerDetails> {
               onPressed: () {
                 Map<String, dynamic> sub = {
                   'messname': widget.data['messname'],
-                  'email': FirebaseAuth.instance.currentUser?.email ?? 'Unknown',
-                  'phone': widget.data['contact'],  // Assuming the phone number is in widget.data
-                  'username': widget.data['owner'],  // Assuming the username is in widget.data
-                };
+                  'adminemail':widget.data['email'],
+                  'username':userdetails?['name'],
+                  'useremail': FirebaseAuth.instance.currentUser?.email ?? 'Unknown',
+                  'phone': userdetails?['phone'],
+                }; 
                 saveSubscriptionToFirebase(sub);
               },
               style: ButtonStyle(

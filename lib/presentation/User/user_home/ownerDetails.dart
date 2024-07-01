@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, use_build_context_synchronously
+// ignore_for_file: file_names, use_build_context_synchronously, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/functions/sucsess_message.dart';
-import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
+import 'package:messhub/presentation/User/user_home/menu_viewer.dart';
 import 'package:messhub/widgets/bottomNavUser.dart';
 
 class OwnerDetails extends StatefulWidget {
@@ -165,16 +165,16 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                               child: Text('Full Plan'),
                             ),
                           ),
-                          TableCell(
+                          TableCell( 
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.data['fullplan']),
+                              child: Text('₹'+ widget.data['fullplan']),
                             ),
                           ),
                           TableCell(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.data['fullplan']),
+                              child: Text('₹'+widget.data['fullplan']),
                             ),
                           ),
                         ],
@@ -190,13 +190,13 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                           TableCell(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.data['lunchonly']),
+                              child: Text('₹'+widget.data['lunchonly']),
                             ),
                           ),
                           TableCell(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.data['lunchonly']),
+                              child: Text('₹'+widget.data['lunchonly']),
                             ),
                           ),
                         ],
@@ -212,13 +212,13 @@ class _OwnerDetailsState extends State<OwnerDetails> {
                           TableCell(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.data['twotimemeal']),
+                              child: Text('₹'+widget.data['twotimemeal']),
                             ),
                           ),
                           TableCell(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(widget.data['twotimemeal']),
+                              child: Text('₹'+widget.data['twotimemeal']),
                             ),
                           ),
                         ],

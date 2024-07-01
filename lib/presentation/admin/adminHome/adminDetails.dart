@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:messhub/color/color.dart';
 import 'package:messhub/functions/profileTextBox.dart';
 import 'package:messhub/presentation/admin/adminHome/detailsEdit.dart';
-import 'package:messhub/presentation/admin/adminHome/menuViewer.dart';
+import 'package:messhub/presentation/User/user_home/menu_viewer.dart';
 
 class AdminDetailsEdit extends StatefulWidget {
   final Map<String, dynamic> data;

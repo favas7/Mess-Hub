@@ -25,6 +25,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
 
   File? _imageFile;
   User? user;
+  String? profileImageUrl;
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
         _username.text = userData['name'] ?? '';
         _email.text = userData['email'] ?? '';
         _phone.text = userData['phone'] ?? '';
+        profileImageUrl = userData['profileImage'];
       });
     }
   }
@@ -80,19 +82,18 @@ class _UserProfileEditState extends State<UserProfileEdit> {
 
   Future<void> _updateUserData() async {
     if (user != null) {
-      String? profileImageUrl;
+      String? newProfileImageUrl;
       if (_imageFile != null) {
-        profileImageUrl = await _uploadImage(_imageFile!);
+        newProfileImageUrl = await _uploadImage(_imageFile!);
       }
 
       await FirebaseFirestore.instance.collection('userDetails').doc(user!.email).update({
         'name': _username.text,
         'email': _email.text,
         'phone': _phone.text,
-        if (profileImageUrl != null) 'profileImage': profileImageUrl,
+        if (newProfileImageUrl != null) 'profileImage': newProfileImageUrl,
       });
 
-      // Navigate back to profile screen after updating data
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const BottomNavUser()),
@@ -129,7 +130,9 @@ class _UserProfileEditState extends State<UserProfileEdit> {
                 radius: 50,
                 backgroundImage: _imageFile != null
                     ? FileImage(_imageFile!)
-                    : const AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png') as ImageProvider,
+                    : (profileImageUrl != null
+                        ? NetworkImage(profileImageUrl!)
+                        : const AssetImage('assets/PlaceHolder/Placeholder_view_vector.svg.png')) as ImageProvider,
               ),
             ),
             Positioned(
@@ -137,7 +140,7 @@ class _UserProfileEditState extends State<UserProfileEdit> {
               left: MediaQuery.of(context).size.width / 2.6,
               child: TextButton(
                 onPressed: _pickImage,
-                child: const Text('Update Image'), 
+                child: const Text('Update Image'),
               ),
             ),
             Padding(

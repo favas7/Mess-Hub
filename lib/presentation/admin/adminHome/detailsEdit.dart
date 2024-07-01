@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -267,6 +267,8 @@ class _DetailseditState extends State<Detailsedit> {
                             };
                             await updateUser(messData, widget.id);
                             print("Document updated successfully.");
+                            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const BottomNav()),
+    );
                           },
                           style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all<Color>(mainColor),
